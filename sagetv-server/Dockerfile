@@ -44,7 +44,7 @@ WORKDIR /
 ADD install-sagetv.sh /usr/bin/
 ADD run-sagetv.sh /usr/bin/
 
-VOLUME ["/var/media", "/opt/sagetv"]
+VOLUME ["/var/media", "/var/mediaext", "/opt/sagetv"]
 
 # Client (TCP 42024 for connecting, TCP 7818 for streaming, UDP 8270 for finding servers)
 EXPOSE 42024 7818 8270
