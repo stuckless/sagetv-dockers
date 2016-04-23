@@ -13,7 +13,7 @@
         SageTV is an Open Source PVR
     </Overview>
     <Support>http://forums.sagetv.com/forums/</Support>
-    <Registry>https://registry.hub.docker.com/u/binhex/arch-sabnzbd/</Registry>
+    <Registry>https://hub.docker.com/r/stuckless/sagetv-server/</Registry>
     <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/sagetv-server/unRAID</GitHub>
     <Repository>stuckless/sagetv-server</Repository>
     <BindTime>true</BindTime>
