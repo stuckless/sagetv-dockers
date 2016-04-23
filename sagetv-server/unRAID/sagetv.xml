@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Containers>
+    <Beta>True</Beta>
+    <Category>MediaApp:Video MediaApp:Music MediaApp:Photos MediaServer:Video MediaServer:Music MediaServer:Photos</Category>
+    <Name>stuckless-sagetv</Name>
+    <Description>
+        SageTV is an Open Source PVR[br][br]
+        [b][u][span style='color: #E80000;']Configuration[/span][/u][/b][br]
+        [b]/opt/sagetv[/b] This is the base directory for the server and other sagetv related files[br]
+        [b]/var/media[/b] Path for sagetv recordings and videos
+    </Description>
+    <Overview>
+        SageTV is an Open Source PVR
+    </Overview>
+    <Support>http://forums.sagetv.com/forums/</Support>
+    <Registry>https://registry.hub.docker.com/u/binhex/arch-sabnzbd/</Registry>
+    <GitHub>https://github.com/binhex/arch-sabnzbd</GitHub>
+    <Repository>stuckless/sagetv-server</Repository>
+    <BindTime>true</BindTime>
+    <Privileged>true</Privileged>
+    <Networking>
+        <Mode>host</Mode>
+        <!--
+  -p 42024:42024 -p 7818:7818 -p 8270:8270/udp -p 31100:31100/udp -p 31099:31099 \
+  -p 16867:16867/udp -p 16869:16869/udp -p 16881:16881/udp \
+        -->
+        <Publish>
+            <!-- web servers maps to 8081 as to not conflict with other servers -->
+            <Port>
+                <HostPort>8081</HostPort>
+                <ContainerPort>8081</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+
+            <!-- sagetv required ports -->
+            <Port>
+                <HostPort>42024</HostPort>
+                <ContainerPort>42024</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>7818</HostPort>
+                <ContainerPort>7818</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>8270</HostPort>
+                <ContainerPort>8270</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>31100</HostPort>
+                <ContainerPort>31100</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>31099</HostPort>
+                <ContainerPort>31099</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>16867</HostPort>
+                <ContainerPort>16867</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>16869</HostPort>
+                <ContainerPort>16869</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>16881</HostPort>
+                <ContainerPort>16881</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+        </Publish>
+    </Networking>
+    <Environment>
+        <Variable>
+            <Name>OPT_GENTUNER</Name>
+            <Value>Y</Value>
+        </Variable>
+        <Variable>
+            <Name>OPT_COMMANDIR</Name>
+            <Value>Y</Value>
+        </Variable>
+    </Environment>
+    <Data>
+        <Volume>
+            <HostDir>path to sagetv files</HostDir>
+            <ContainerDir>/opt/sagetv</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
+        <Volume>
+            <HostDir>path to recordings, music, tv files, movies, etc</HostDir>
+            <ContainerDir>/var/media</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
+    </Data>
+    <WebUI>http://[IP]:[PORT:8081]/</WebUI>
+    <Banner>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Banner>
+    <Icon>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Icon>
+    <ExtraParams></ExtraParams>
+</Containers>
