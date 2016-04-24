@@ -33,7 +33,22 @@ RUN mkdir /files
 
 RUN set -x \
   && apt-get update \
-  && apt-get install -y openjdk-8-jdk wget curl libfaad2 less net-tools
+  && apt-get install -y openjdk-8-jdk wget curl libfaad2 net-tools less vim
+
+# add in wine
+#RUN apt-get update \
+#	&& apt-get install -y --no-install-recommends \
+#		curl \
+#		unzip \
+#		ca-certificates
+#
+#RUN dpkg --add-architecture i386 \
+#		&& apt-get update \
+#		&& apt-get install -y --no-install-recommends \
+#				wine \
+#				xauth \
+#				xvfb \
+#		&& rm -rf /var/lib/apt/lists/*
 
 RUN apt-get autoremove -y \
     && apt-get clean \

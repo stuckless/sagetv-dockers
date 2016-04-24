@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 # Options
-OPT_GENTUNER=Y
-OPT_COMMANDIR=Y
+#OPT_GENTUNER=Y
+#OPT_COMMANDIR=Y
+#OPT_STUCKLESS=N
+# NOT USED, but maybe someday
+#OPT_JAVA_VER=8
 
 # SageTV Version
 SAGE_VERSION=`curl https://dl.bintray.com/opensagetv/sagetv/sagetv/ | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/' | egrep -e '9\.[0-9]+' | sort | tail -1`
@@ -35,7 +38,7 @@ if [ -e ${SAGE_CUR_VERSION_FILE} ] ; then
 fi
 
 # check if new install
-if [ ! -e ${SAGE_START} ] ; then
+if [ ! -e ${SAGE_START} ] || [ ! "${SAGE_VERSION}" = "${SAGE_CUR_VERSION}" ] || file libSage.so|grep '32-bit' ; then
     wget -O ${SAGE_SERVER_TGZ} ${SAGE_SERVER_TGZ_URL}
     tar -zxvf ${SAGE_SERVER_TGZ}
     if [ ! $? -eq 0 ]; then
@@ -53,23 +56,17 @@ if [ ! -e ${SAGE_START} ] ; then
     fi
 
     if [ "Y" = "$OPT_COMMANDIR" ] ; then
-        wget -O commandir.tgz https://bintray.com/artifact/download/opensagetv/sagetv-plugins/CommandIR-AMD64/commandir-1.0.3-amd64.tgz
+        wget -O commandir.tgz https://bintray.com/artifact/download/opensagetv/sagetv-plugins/CommandIR-AMD64/commandir-1.0.3.1-amd64.tgz
         tar -zxvf commandir.tgz -C ../../../
         rm -f commandir.tgz
     fi
-elif [ ! "${SAGE_VERSION}" = "${SAGE_CUR_VERSION}" ] ; then
-    # Upgrade
-    wget -O ${SAGE_SERVER_TGZ} ${SAGE_SERVER_TGZ_URL}
-    tar -zxvf ${SAGE_SERVER_TGZ}
-    if [ ! $? -eq 0 ]; then
-        echo "Failed to download Server!!! URL: ${SAGE_SERVER_TGZ_URL}";
-        exit 2
-    fi
-    rm -f ${SAGE_SERVER_TGZ}
-    echo "${SAGE_VERSION}" > ${SAGE_CUR_VERSION_FILE}
-    echo "Upgrading from ${SAGE_CUR_VERSION} to ${SAGE_VERSION}"
-    SAGE_CUR_VERSION=${SAGE_VERSION}
 else
     echo "SageTV Already At Version: ${SAGE_VERSION}"
 fi
 
+# post install, need to do some fixups...
+if [ "Y" = "$OPT_STUCKLESS" ] ; then
+    # hack for my own legacy env
+    mkdir -p /opt/MEDIA
+    ln -s /var/mediaext /opt/MEDIA/videos
+fi

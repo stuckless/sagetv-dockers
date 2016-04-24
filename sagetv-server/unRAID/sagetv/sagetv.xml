@@ -4,17 +4,19 @@
     <Category>MediaApp:Video MediaApp:Music MediaApp:Photos MediaServer:Video MediaServer:Music MediaServer:Photos</Category>
     <Name>stuckless-sagetv</Name>
     <Description>
-        SageTV is an Open Source PVR[br][br]
+        SageTV is an Open Source PVR and Media Player[br][br]
         [b][u][span style='color: #E80000;']Configuration[/span][/u][/b][br]
-        [b]/opt/sagetv[/b] This is the base directory for the server and other sagetv related files[br]
-        [b]/var/media[/b] Path for sagetv recordings and videos
+        [b]/opt/sagetv[/b] This is the base directory for the server and other sagetv related files.  Under this location there can be a 'server' directory and if the existing 'server' directory exists it will be upgraded.[br]
+        [b]/var/media[/b] Path for sagetv recordings and videos.  Under this directory there should be (or will be created) a 'tv' directory where SageTV recordings will get recorded.
+        [b]/var/mediaext[/b] Path for extra media files.  This can be whatever you want, but you will configure SageTV to look for videos, music, pictures, etc from this location.
+        [b]NOTE: SageTV will need to use 'host' networking, so while the ports are defined, they are not required to be edited.  Without 'host' sagetv will think your network clients are connecting as remote placeshifters, and present the placeshifter login.[/b]
     </Description>
     <Overview>
-        SageTV is an Open Source PVR
+        SageTV is an Open Source PVR and Media Player
     </Overview>
     <Support>http://forums.sagetv.com/forums/</Support>
     <Registry>https://hub.docker.com/r/stuckless/sagetv-server/</Registry>
-    <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/sagetv-server/unRAID</GitHub>
+    <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/sagetv-server/unRAID/sagetv/</GitHub>
     <Repository>stuckless/sagetv-server</Repository>
     <BindTime>true</BindTime>
     <Privileged>true</Privileged>
@@ -24,7 +26,7 @@
             <!-- web servers maps to 8081 as to not conflict with other servers -->
             <Port>
                 <HostPort>8081</HostPort>
-                <ContainerPort>8081</ContainerPort>
+                <ContainerPort>8080</ContainerPort>
                 <Protocol>tcp</Protocol>
             </Port>
 
@@ -73,27 +75,38 @@
     </Networking>
     <Environment>
         <Variable>
+            <!-- install gentuner -->
             <Name>OPT_GENTUNER</Name>
             <Value>Y</Value>
         </Variable>
         <Variable>
+            <!-- install command ir -->
             <Name>OPT_COMMANDIR</Name>
             <Value>Y</Value>
+        </Variable>
+        <!--<Variable>-->
+            <!--<Name>OPT_JAVA_VER</Name>-->
+            <!--<Value>8</Value>-->
+        <!--</Variable>-->
+        <Variable>
+            <!-- just a configuration hack, that is used to setup for my (stuckless) specific environment -->
+            <Name>OPT_STUCKLESS</Name>
+            <Value>N</Value>
         </Variable>
     </Environment>
     <Data>
         <Volume>
-            <HostDir>path to sagetv files</HostDir>
+            <HostDir>/mnt/user/apps/sagetv/</HostDir>
             <ContainerDir>/opt/sagetv</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
         <Volume>
-            <HostDir>path to sagetv recordings, music, tv files, movies, etc</HostDir>
+            <HostDir>/mnt/user/media/sagetv/</HostDir>
             <ContainerDir>/var/media</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
         <Volume>
-            <HostDir>path to additional media, music, tv files, movies, etc</HostDir>
+            <HostDir>/mnt/usr/media/videos/</HostDir>
             <ContainerDir>/var/mediaext</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
