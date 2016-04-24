@@ -25,7 +25,7 @@
         <Publish>
             <!-- web servers maps to 8081 as to not conflict with other servers -->
             <Port>
-                <HostPort>8081</HostPort>
+                <HostPort>8080</HostPort>
                 <ContainerPort>8080</ContainerPort>
                 <Protocol>tcp</Protocol>
             </Port>
@@ -106,12 +106,12 @@
             <Mode>rw</Mode>
         </Volume>
         <Volume>
-            <HostDir>/mnt/usr/media/videos/</HostDir>
+            <HostDir>/mnt/user/media/videos/</HostDir>
             <ContainerDir>/var/mediaext</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
     </Data>
-    <WebUI>http://[IP]:[PORT:8081]/</WebUI>
+    <WebUI>http://[IP]:[PORT:8080]/</WebUI>
     <Banner>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Banner>
     <Icon>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Icon>
     <ExtraParams></ExtraParams>
