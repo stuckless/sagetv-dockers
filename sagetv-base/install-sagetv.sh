@@ -60,12 +60,20 @@ else
     echo "SageTV Already At Version: ${SAGE_VERSION}"
 fi
 
-# if configuring comskip, then setup the comksip values
+# if configuring comskip, then setup the comskip values
 if [ "Y" = "${OPT_COMSKIP}" ] ; then
     echo "Configuring Comskip"
     SAGE_PROPS=Sage.properties
     SAGE_PROPS_TMP=Sage.properties.tmp
-    cp ${SAGE_PROPS} ${SAGE_PROPS_TMP}
+    if [ -e ${SAGE_PROPS} ] ; then
+        CSEXE="asdhflkajshdflkajhdlkfajldfkjahlsdfkjahlsdkfjahldfkjahldfkjahdlfkjasdhflkajdhflkajshfdlkasdfauiyoiuwyeroiquwerh"
+        CSINI="${CSEXE}"
+        if [ -e /opt/sagetv/comskip/comskip.exe ] ; then
+            CSEXE="cd/comskip_location="
+            CSINI="cd/ini_location="
+        fi
+        cat ${SAGE_PROPS} | grep -v "cd/running_as_root=" | grep -v "cd/server_is=" | grep -v "cd/wine_home=" | grep -v "cd/wine_user=" | grep -v "${CSEXE}" | grep -v "${CSINI}" > ${SAGE_PROPS_TMP}
+    fi
     echo "cd/running_as_root=true" >> ${SAGE_PROPS_TMP}
     echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
     echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}

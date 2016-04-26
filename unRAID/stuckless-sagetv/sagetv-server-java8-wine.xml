@@ -18,7 +18,7 @@
     <Overview>
         SageTV is an Open Source PVR and Media Player
     </Overview>
-    <Support>http://forums.sagetv.com/forums/</Support>
+    <Support>http://forums.sagetv.com/forums/showthread.php?p=587908</Support>
     <Registry>https://hub.docker.com/r/stuckless/sagetv-server-java8-wine/</Registry>
     <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/unRAID/stuckless-sagetv/</GitHub>
     <Repository>stuckless/sagetv-server-java8-wine</Repository>

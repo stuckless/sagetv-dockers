@@ -23,5 +23,5 @@ read -r -d '' OVERVIEW <<- EOM
     SageTV is an Open Source PVR and Media Player
 EOM
 export OVERVIEW
-export SUPPORT="http://forums.sagetv.com/forums/"
+export SUPPORT="http://forums.sagetv.com/forums/showthread.php?p=587908"
 export GITHUB="https://github.com/stuckless/sagetv-dockers/tree/master/unRAID/stuckless-sagetv/"
