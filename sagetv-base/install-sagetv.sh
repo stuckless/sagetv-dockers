@@ -3,12 +3,6 @@
 # Options
 OPT_GENTUNER=${OPT_GENTUNER:-Y}
 OPT_COMMANDIR=${OPT_COMMANDIR:-Y}
-OPT_STUCKLESS=${OPT_STUCKLESS:-N}
-
-# NOT USED, but maybe someday
-OPT_JAVA_VER=${OPT_JAVA_VER:-8}
-
-# Add 1 gig to the size :(
 OPT_COMSKIP=${OPT_COMSKIP:-Y}
 
 # SageTV Version
@@ -22,10 +16,7 @@ SAGE_CUR_VERSION_FILE=".SAGE_CUR_VERSION"
 SAGE_START=startsage
 
 # set default sagetv home
-# NOTE: It should always be this, except when testing
-if [ "${SAGE_HOME}" = "" ] ; then
-    SAGE_HOME=/opt/sagetv/server
-fi
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
 
 mkdir -p ${SAGE_HOME}
 cd ${SAGE_HOME}
@@ -43,6 +34,7 @@ fi
 
 # check if new install
 if [ ! -e ${SAGE_START} ] || [ ! "${SAGE_VERSION}" = "${SAGE_CUR_VERSION}" ] || file libSage.so|grep '32-bit' ; then
+    echo "Installing/Upgrading SageTV to ${SAGE_VERSION}"
     wget -O ${SAGE_SERVER_TGZ} ${SAGE_SERVER_TGZ_URL}
     tar -zxvf ${SAGE_SERVER_TGZ}
     if [ ! $? -eq 0 ]; then
@@ -68,30 +60,22 @@ else
     echo "SageTV Already At Version: ${SAGE_VERSION}"
 fi
 
-# post install, need to do some fixups...
-if [ "Y" = "${OPT_STUCKLESS}" ] ; then
-    # hack for my own legacy env
-    mkdir -p /opt/MEDIA
-    ln -s /var/mediaext /opt/MEDIA/videos
+# if configuring comskip, then setup the comksip values
+if [ "Y" = "${OPT_COMSKIP}" ] ; then
+    echo "Configuring Comskip"
+    SAGE_PROPS=Sage.properties
+    SAGE_PROPS_TMP=Sage.properties.tmp
+    cp ${SAGE_PROPS} ${SAGE_PROPS_TMP}
+    echo "cd/running_as_root=true" >> ${SAGE_PROPS_TMP}
+    echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
+    echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}
+    echo "cd/wine_user=root" >> ${SAGE_PROPS_TMP}
+    if [ -e /opt/sagetv/comskip/comskip.exe ] ; then
+        echo "Using Donator version of Comskip"
+        echo "cd/comskip_location=/opt/sagetv/comskip/comskip.exe" >> ${SAGE_PROPS_TMP}
+        echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
+    fi
+    cat ${SAGE_PROPS_TMP} | sort | uniq > ${SAGE_PROPS}
+    rm ${SAGE_PROPS_TMP}
 fi
-
-if [ ! -e /usr/bin/java ] || [ ! -e /usr/bin/wine ] ; then
-	apt-get update -y
-fi
-
-if [ ! -e /usr/bin/java ] ; then
-    # install java
-    apt-get install -y openjdk-${OPT_JAVA_VER}-jdk
-fi
-
-if [ ! -e /usr/bin/wine ] && [ "Y" = "${OPT_COMSKIP}" ] ; then
-    apt-get install -y wine1.8 winetricks
-    # apt-get purge -y software-properties-common
-    wineboot --init
-fi
-
-apt-get autoremove -y \
-   && apt-get clean \
-   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 

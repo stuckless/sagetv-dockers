@@ -12,7 +12,8 @@ docker run -d --name sagetv-server \
   --env OPT_GENTUNER=Y \
   --env OPT_COMMANDIR=Y \
   --env OPT_STUCKLESS=Y \
-  --env OPT_JAVA_VER=8 \
+  --env OPT_COMSKIP=Y \
+  --env OPT_JAVA_VER=7 \
   -t -i sagetv-server "$@"
 
 # NOTE: if you built it yourself, then run without the stuckles/ prefix

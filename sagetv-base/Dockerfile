@@ -1,20 +1,5 @@
 # BUILDING
-# docker build -t sagetv-server .
-
-# RUNNING
-# docker run -d --name sagetv-server \
-#  -v /home/seans/docker/sagetv-server/MEDIA:/var/media \
-#  -v /home/seans/docker/sagetv-server/SAGETV/:/opt/sagetv \
-#  -p 42024:42024 -p 7818:7818 -p 8270:8270/udp -p 31100:31100/udp -p 31099:31099 \
-#  -p 16867:16867/udp -p 16869:16869/udp -p 16881:16881/udp \
-#  --net host \
-#  -t -i sagetv-server "$@"
-
-# STOPPING
-# docker rm -f --force sagetv-server
-
-# CONNECTING to the conntainer while it is running
-# docker exec -i -t sagetv-server bash
+# docker build -t stuckless/sagetv-base:latest .
 
 FROM ubuntu:16.04
 
@@ -31,10 +16,6 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
 RUN set -x \
   && apt-get update \
   && apt-get install -y wget curl libfaad2 net-tools file less vim software-properties-common
-
-RUN add-apt-repository -y ppa:ubuntu-wine/ppa
-RUN add-apt-repository -y ppa:openjdk-r/ppa
-RUN dpkg --add-architecture i386
 
 RUN apt-get autoremove -y \
     && apt-get clean \
@@ -54,4 +35,7 @@ EXPOSE 31100 31099
 # Hauppage extender (all UDP)
 EXPOSE 16867 16869 16881
 
-CMD run-sagetv.sh
+# Web Server
+EXPOSE 8080
+
+CMD install-sagetv.sh
