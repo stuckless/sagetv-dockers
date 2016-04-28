@@ -17,12 +17,21 @@ RUN set -x \
   && apt-get update \
   && apt-get install -y wget curl libfaad2 net-tools file less vim software-properties-common
 
+# comskip stuff
+RUN add-apt-repository -y universe && apt-get update && apt-get install -y libargtable2-0 ffmpeg sudo
+
 RUN apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD install-sagetv.sh /usr/bin/
 ADD run-sagetv.sh /usr/bin/
+ADD wine /usr/bin/
+
+RUN mkdir -p /sagetv_files/comskip
+# assumes you've built it, if not, it will fail
+ADD comskip /sagetv_files/comskip
+ADD comskip.ini /sagetv_files/comskip
 
 VOLUME ["/var/media", "/var/mediaext", "/opt/sagetv"]
 

@@ -63,26 +63,26 @@ fi
 # if configuring comskip, then setup the comskip values
 if [ "Y" = "${OPT_COMSKIP}" ] ; then
     echo "Configuring Comskip"
+
+    mkdir -p /opt/sagetv/comskip/
+    cp -v /sagetv_files/comskip/comskip /opt/sagetv/comskip/
+    if [ ! -e /opt/sagetv/comskip/comskip.ini ] ; then
+        cp -v /sagetv_files/comskip/comskip.ini /opt/sagetv/comskip/
+    fi
+
     SAGE_PROPS=Sage.properties
     SAGE_PROPS_TMP=Sage.properties.tmp
     if [ -e ${SAGE_PROPS} ] ; then
-        CSEXE="asdhflkajshdflkajhdlkfajldfkjahlsdfkjahlsdkfjahldfkjahldfkjahdlfkjasdhflkajdhflkajshfdlkasdfauiyoiuwyeroiquwerh"
-        CSINI="${CSEXE}"
-        if [ -e /opt/sagetv/comskip/comskip.exe ] ; then
-            CSEXE="cd/comskip_location="
-            CSINI="cd/ini_location="
-        fi
+        CSEXE="cd/comskip_location="
+        CSINI="cd/ini_location="
         cat ${SAGE_PROPS} | grep -v "cd/running_as_root=" | grep -v "cd/server_is=" | grep -v "cd/wine_home=" | grep -v "cd/wine_user=" | grep -v "${CSEXE}" | grep -v "${CSINI}" > ${SAGE_PROPS_TMP}
     fi
     echo "cd/running_as_root=true" >> ${SAGE_PROPS_TMP}
     echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
     echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}
     echo "cd/wine_user=root" >> ${SAGE_PROPS_TMP}
-    if [ -e /opt/sagetv/comskip/comskip.exe ] ; then
-        echo "Using Donator version of Comskip"
-        echo "cd/comskip_location=/opt/sagetv/comskip/comskip.exe" >> ${SAGE_PROPS_TMP}
-        echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
-    fi
+    echo "cd/comskip_location=/opt/sagetv/comskip/comskip" >> ${SAGE_PROPS_TMP}
+    echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
     cat ${SAGE_PROPS_TMP} | sort | uniq > ${SAGE_PROPS}
     rm ${SAGE_PROPS_TMP}
 fi

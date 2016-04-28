@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# this is hack to get comskip plugin in linux to work by faking wine
+# all this does remove wine and execute the args passed to wine
+# eventually the plugin for linux, needs to be changed
+
+CMD=$1
+shift
+"$CMD" "$@"
