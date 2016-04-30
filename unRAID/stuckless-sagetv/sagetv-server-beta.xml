@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Containers>
-    <Beta>False</Beta>
+    <Beta>True</Beta>
     <Category>MediaApp:Video MediaApp:Music MediaApp:Photos MediaServer:Video MediaServer:Music MediaServer:Photos</Category>
-    <Name>stuckless-sagetv-server-java8</Name>
+    <Name>stuckless-sagetv-server-beta</Name>
     <Description>
         SageTV is an Open Source PVR and Media Player[br][br]
         [b][u][span style='color: #E80000;']Configuration[/span][/u][/b][br]
@@ -12,15 +12,17 @@
         [br][b][u][span style='color: #E80000;']Notes[/span][/u][/b][br]
         [b]*[/b] SageTV will need to use 'host' networking, so while the ports are defined, they are not required to be edited.  Without 'host' sagetv will think your network clients are connecting as remote placeshifters, and present the placeshifter login.  Because it is running in host mode, make sure you don't have other docker containers that are using port 8080.  If you do, then EITHER change SageTV Jetty Port (in plugin configuration) after install, or, update the other docker containers to NOT use port 8080.[br]
         [b]*[/b] On every Docker start, it will check for a new version of SageTV and install it, if it exists.[br]
-        [b]*[/b] There are Java 7 and Java 8 version of these containers.  Java 8 will be the default moving forward, but it currently has issues with the version of Jetty that installed with the SageTV plugins.  If you need Jetty support (ie, BMT, SageTV Web UI, etc) then install the 'java7' version of this container[br]
+        [b]*[/b] There are Java 7 and Java 8 version of these containers.  Java 8 will be the default moving forward, but it currently has issues with the version of Jetty that installed with the SageTV plugins.  If you need Jetty support (ie, BMT, SageTV Web UI, etc) then install the 'java7' version of this container[br]\n[br]
+        [b][u][span style='color: #E80000;']Plex Integration[/span][/u][/b][br]
+        [b]*[/b]If OPT_PLEX is Y, then it will install the plex integration for sagetv and plex.  The PLEX_SAGETV_XXX vars need to be set with the information about the SageTV webserver.  The PLEX_APP needs to be set to a path that can be accessed by the SageTV container.  Usually this is the default of /unraid/appdata/plex/[br]
     </Description>
     <Overview>
         SageTV is an Open Source PVR and Media Player
     </Overview>
     <Support>http://forums.sagetv.com/forums/showthread.php?p=587908</Support>
-    <Registry>https://hub.docker.com/r/stuckless/sagetv-server-java8/</Registry>
+    <Registry>https://hub.docker.com/r/stuckless/sagetv-server-beta/</Registry>
     <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/unRAID/stuckless-sagetv/</GitHub>
-    <Repository>stuckless/sagetv-server-java8</Repository>
+    <Repository>stuckless/sagetv-server-beta</Repository>
     <BindTime>true</BindTime>
     <Privileged>true</Privileged>
     <Networking>
@@ -90,6 +92,36 @@
             <!-- Configure for COMSKIP -->
             <Name>OPT_COMSKIP</Name>
             <Value>Y</Value>
+        </Variable>
+        <Variable>
+            <!-- Configure for PLEX Integration -->
+            <Name>OPT_PLEX</Name>
+            <Value>N</Value>
+        </Variable>
+        <Variable>
+            <!-- Configure for PLEX Integration -->
+            <Name>PLEX_SAGETV_HOST</Name>
+            <Value>localhost</Value>
+        </Variable>
+        <Variable>
+            <!-- Configure for PLEX Integration -->
+            <Name>PLEX_SAGETV_PORT</Name>
+            <Value>8080</Value>
+        </Variable>
+        <Variable>
+            <!-- Configure for PLEX Integration -->
+            <Name>PLEX_SAGETV_USERNAME</Name>
+            <Value></Value>
+        </Variable>
+        <Variable>
+            <!-- Configure for PLEX Integration -->
+            <Name>PLEX_SAGETV_PASSWORD</Name>
+            <Value></Value>
+        </Variable>
+        <Variable>
+            <!-- Configure for PLEX Integration -->
+            <Name>PLEX_APP</Name>
+            <Value>/unraid/appdata/plex/</Value>
         </Variable>
     </Environment>
     <Data>
