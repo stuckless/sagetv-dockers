@@ -7,8 +7,8 @@ OPT_COMSKIP=${OPT_COMSKIP:-Y}
 OPT_PLEX=${OPT_PLEX:-N}
 PLEX_SAGETV_HOST=${PLEX_SAGETV_HOST:-localhost}
 PLEX_SAGETV_PORT=${PLEX_SAGETV_PORT:-8080}
-PLEX_SAGETV_USERNAME=
-PLEX_SAGETV_PASSWORD=
+#PLEX_SAGETV_USERNAME=
+#PLEX_SAGETV_PASSWORD=
 PLEX_APP=${PLEX_LIBRARY:-/unraid/appdata/plex/}
 
 
@@ -123,8 +123,10 @@ if [ "Y" = "${OPT_PLEX}" ] ; then
 	cp -r src/plex/common/sageplex "${SCANNER_MOVIE}"
 	# copy config file
 	# need to exported for mo.sh to work
-	export PLEX_SAGETV_HOST PLEX_SAGETV_PORT PLEX_SAGETV_USERNAME PLEX_SAGETV_PASSWORD PLEX_APP
-	cat /usr/local/share/plex/config/sageplex_cfg.json | /usr/bin/mo.sh > "${AGENT_DIR}/../sageplex_cfg.json"
+	if [ ! -e "${AGENT_DIR}/../sageplex_cfg.json" ] ; then
+        export PLEX_SAGETV_HOST PLEX_SAGETV_PORT PLEX_SAGETV_USERNAME PLEX_SAGETV_PASSWORD PLEX_APP
+        cat /usr/local/share/plex/config/sageplex_cfg.json | /usr/bin/mo.sh > "${AGENT_DIR}/../sageplex_cfg.json"
+	fi
 
     # copy the agent
 	mkdir -p "${AGENT_DIR}"
