@@ -29,6 +29,7 @@ ADD run-sagetv.sh /usr/bin/
 ADD wine /usr/bin/
 ADD plex/mo.sh /usr/bin/
 ADD plex/sageplex_cfg.json /usr/local/share/plex/config/
+ADD plex/install-plex.sh /usr/bin/
 
 RUN mkdir -p /sagetv_files/comskip
 # assumes you've built it, if not, it will fail
