@@ -15,7 +15,8 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
 
 RUN set -x \
   && apt-get update \
-  && apt-get install -y wget curl libfaad2 net-tools file less vim software-properties-common unzip
+  && apt-get install -y wget curl libfaad2 net-tools file \
+    less vim software-properties-common unzip cifs-utils
 
 # comskip stuff
 RUN add-apt-repository -y universe && apt-get update && apt-get install -y libargtable2-0 ffmpeg sudo
@@ -27,9 +28,6 @@ RUN apt-get autoremove -y \
 ADD install-sagetv.sh /usr/bin/
 ADD run-sagetv.sh /usr/bin/
 ADD wine /usr/bin/
-ADD plex/mo.sh /usr/bin/
-ADD plex/sageplex_cfg.json /usr/local/share/plex/config/
-ADD plex/install-plex.sh /usr/bin/
 
 RUN mkdir -p /sagetv_files/comskip
 # assumes you've built it, if not, it will fail

@@ -87,11 +87,34 @@ if [ "Y" = "${OPT_COMSKIP}" ] ; then
     rm ${SAGE_PROPS_TMP}
 fi
 
-# beta feature, not working
-if [ "Y" = "${OPT_PLEX}" ] ; then
-    install-plex.sh
+cd ${SAGE_HOME}
+
+# install the license key
+if [ "${LICENCE_DATA}" != "" ] ; then
+    KEYDATA="$(echo "${LICENCE_DATA}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+    if [ ! -e ${SAGE_HOME}/activkey.old ] ; then
+        if [ -e ${SAGE_HOME}/activkey ] ; then
+            cp ${SAGE_HOME}/activkey ${SAGE_HOME}/activkey.old
+        fi
+    fi
+    if [ "${KEYDATA}" != "" ] ; then
+        echo "Updating License"
+        echo -n "${KEYDATA}" > ${SAGE_HOME}/activkey
+    fi
 fi
 
-cd ${SAGE_HOME}
+# set java memory
+if [ "${JAVA_MEM_MB}" != "" ] ; then
+    echo "Updating Java Mem"
+    if [ ! -e ${SAGE_HOME}/sagesettings.old ]; then
+        if [ -e ${SAGE_HOME}/sagesettings ] ; then
+            cp ${SAGE_HOME}/sagesettings ${SAGE_HOME}/sagesettings.old
+        fi
+    fi
+    # JAVAMEM=-Xmx768m
+    echo "export JAVA_MEM=\"-Xmx${JAVA_MEM_MB}m\"" > ${SAGE_HOME}/sagesettings
+    chmod 755 ${SAGE_HOME}/sagesettings
+fi
+
 echo "Sage Install Complete"
 

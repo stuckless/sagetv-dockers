@@ -1,0 +1,8 @@
+#!/bin/sh
+# external PUSHBULLET_API=
+FILE=$1
+MSG=$2
+
+curl --header "Authorization: Bearer ${PUSHBULLET_API}" -X POST https://api.pushbullet.com/v2/pushes --header 'Content-Type: application/json' --data-binary "{\"type\": \"note\", \"title\": \"Rename Failed!!!\", \"body\": \"${FILE} was not renamed because ${MSG} \"}"
+
+

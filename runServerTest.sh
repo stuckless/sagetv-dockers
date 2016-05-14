@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# NOTE this is script that shows how to run the sagetv server in a docker container.
+# the sagetv-webapi volumn mapping shows how to map a folder in the webroot to a dev area for testing
+
 if [ "$1" = "" ] ; then
     echo "Need to pass docker name (ie something like stuckless/sagetv-server-java7)"
     exit 1
@@ -13,13 +16,16 @@ if [ "$1" = "stop" ] || [ "$2" = "stop" ] ; then
 fi
 
 docker run -d --name sagetv-server \
-  -v /var/media:/var/media \
-  -v /home/seans/docker/tmpdata/MEDIAEXT:/var/mediaext \
-  -v /home/seans/docker/tmpdata/SAGETV/:/opt/sagetv \
-  -v /home/seans/docker/tmpdata/UNRAID/:/unraid \
+  -v /home/seans/unRAID/mnt/user/sagemedia:/var/media \
+  -v /home/seans/unRAID/mnt/user/mediaext:/var/mediaext \
+  -v /home/seans/unRAID/mnt/user/apps/sagetv:/opt/sagetv \
+  -v /home/seans/unRAID:/unraid \
+  -v /home/seans/git/sagetv-webapi/app:/opt/sagetv/server/userdata/webserver/wwwroot/sage \
   --net host \
   --env OPT_GENTUNER=Y \
   --env OPT_COMMANDIR=Y \
   --env OPT_COMSKIP=Y \
-  --env OPT_PLEX=Y \
+  --env LICENCE_DATA=AAABBB \
+  --env JAVA_MEM_MB=512 \
+  --privileged \
   -t -i "$1" $2

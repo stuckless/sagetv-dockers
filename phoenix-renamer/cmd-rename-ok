@@ -1,0 +1,7 @@
+#!/bin/sh
+# external PUSHBULLET_API=
+FILE=$1
+
+curl --header "Authorization: Bearer ${PUSHBULLET_API}" -X POST https://api.pushbullet.com/v2/pushes --header 'Content-Type: application/json' --data-binary "{\"type\": \"note\", \"title\": \"${FILE} Added\", \"body\": \"${FILE} was renamed and added to your media collection\"}"
+
+

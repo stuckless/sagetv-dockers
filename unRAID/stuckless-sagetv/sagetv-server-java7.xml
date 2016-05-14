@@ -91,6 +91,16 @@
             <Name>OPT_COMSKIP</Name>
             <Value>Y</Value>
         </Variable>
+        <Variable>
+            <!-- SageTV License -->
+            <Name>LICENCE_DATA</Name>
+            <Value></Value>
+        </Variable>
+        <Variable>
+            <!-- SageTV Memory in MB -->
+            <Name>JAVA_MEM_MB</Name>
+            <Value>768</Value>
+        </Variable>
     </Environment>
     <Data>
         <Volume>

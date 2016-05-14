@@ -1,0 +1,22 @@
+#!/bin/sh
+
+export PUSHBULLET_API=${PUSHBULLET_API:-NONE}
+export WATCH_DIR=${WATCH_DIR:-/mnt/user/media/staging/downloads/video}
+export WATCH_SECS=${WATCH_SECS:-60}
+export TVMASK=${TVMASK:-'${MediaTitle}/Season ${SeasonNumber:%02d}/${MediaTitle} - ${SeasonNumber:%02d}E${EpisodeNumber:%02d} - ${EpisodeName}'}
+export TVDIR=${TVDIR:-/opt/media/videos/tv/}
+export MOVIEDIR=${MOVIEDIR:-/opt/media/videos/movies/}
+
+export FAILEDCMD=/opt/phoenix-renamer/cmd-rename-failed
+export SUCESSCMD=/opt/phoenix-renamer/cmd-rename-ok
+
+# run in watch mode
+if [ "" = "${PUSHBULLET_API}" ] || [ "NONE" = "${PUSHBULLET_API}" ] ; then
+    /opt/phoenix-renamer/PhoenixTools/phoenix-renamer --no-dirname-lookups --watchDir "${WATCH_DIR}" \
+        --watchSeconds ${WATCH_SECS} --tvMask "${TVMASK}" --tvOutDir "${TVDIR}" \
+        --movieOutDir "${MOVIEDIR}"
+else
+    /opt/phoenix-renamer/PhoenixTools/phoenix-renamer --no-dirname-lookups --watchDir "${WATCH_DIR}" \
+        --watchSeconds ${WATCH_SECS} --tvMask "${TVMASK}" --tvOutDir "${TVDIR}" \
+        --movieOutDir "${MOVIEDIR}" --cmd "${SUCESSCMD}" --cmd-failed "${FAILEDCMD}"
+fi
