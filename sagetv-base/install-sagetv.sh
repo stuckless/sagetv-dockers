@@ -77,10 +77,10 @@ if [ "Y" = "${OPT_COMSKIP}" ] ; then
         CSINI="cd/ini_location="
         cat ${SAGE_PROPS} | grep -v "cd/running_as_root=" | grep -v "cd/server_is=" | grep -v "cd/wine_home=" | grep -v "cd/wine_user=" | grep -v "${CSEXE}" | grep -v "${CSINI}" > ${SAGE_PROPS_TMP}
     fi
-    echo "cd/running_as_root=true" >> ${SAGE_PROPS_TMP}
+    echo "cd/running_as_root=false" >> ${SAGE_PROPS_TMP}
     echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
     echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}
-    echo "cd/wine_user=root" >> ${SAGE_PROPS_TMP}
+    echo "cd/wine_user=sagetv" >> ${SAGE_PROPS_TMP}
     echo "cd/comskip_location=/opt/sagetv/comskip/comskip" >> ${SAGE_PROPS_TMP}
     echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
     cat ${SAGE_PROPS_TMP} | sort | uniq > ${SAGE_PROPS}
@@ -112,7 +112,7 @@ if [ "${JAVA_MEM_MB}" != "" ] ; then
         fi
     fi
     # JAVAMEM=-Xmx768m
-    echo "export JAVA_MEM=\"-Xmx${JAVA_MEM_MB}m\"" > ${SAGE_HOME}/sagesettings
+    echo "export JAVAMEM=-Xmx${JAVA_MEM_MB}m" > ${SAGE_HOME}/sagesettings
     chmod 755 ${SAGE_HOME}/sagesettings
 fi
 

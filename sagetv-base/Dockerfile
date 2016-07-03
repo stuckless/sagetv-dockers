@@ -9,6 +9,9 @@ ENV APP_NAME="SageTV Media Server"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# add sagetv user and group
+RUN useradd -u 911 -U -d /opt/sagetv -s /bin/false -G video sagetv
+
 # Speed up APT
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
   && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache
@@ -25,9 +28,20 @@ RUN apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ADD sagetv-adduser.sh /usr/bin/
+RUN chmod 755 /usr/bin/sagetv-adduser.sh
+
+ADD sagetv-setperms.sh /usr/bin/
+RUN chmod 755 /usr/bin/sagetv-setperms.sh
+
 ADD install-sagetv.sh /usr/bin/
+RUN chmod 755 /usr/bin/install-sagetv.sh
+
 ADD run-sagetv.sh /usr/bin/
+RUN chmod 755 /usr/bin/run-sagetv.sh
+
 ADD wine /usr/bin/
+RUN chmod 755 /usr/bin/wine
 
 RUN mkdir -p /sagetv_files/comskip
 # assumes you've built it, if not, it will fail
