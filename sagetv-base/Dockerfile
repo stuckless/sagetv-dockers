@@ -10,7 +10,7 @@ ENV APP_NAME="SageTV Media Server"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # add sagetv user and group
-RUN useradd -u 911 -U -d /opt/sagetv -s /bin/false -G video sagetv
+RUN useradd -u 911 -U -d /opt/sagetv -s /bin/bash -G video sagetv
 
 # Speed up APT
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
@@ -39,6 +39,9 @@ RUN chmod 755 /usr/bin/install-sagetv.sh
 
 ADD run-sagetv.sh /usr/bin/
 RUN chmod 755 /usr/bin/run-sagetv.sh
+
+ADD sagetv-sudo /etc/sudoers.d/
+RUN chmod 440 /etc/sudoers.d/sagetv-sudo
 
 ADD wine /usr/bin/
 RUN chmod 755 /usr/bin/wine
