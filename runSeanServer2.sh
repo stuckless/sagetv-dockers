@@ -24,7 +24,6 @@ docker run -d --name sagetv-server \
   --env OPT_GENTUNER=Y \
   --env OPT_COMMANDIR=Y \
   --env OPT_COMSKIP=Y \
-  --env LICENCE_DATA=X2ZUHHSDDDVPPYT3IXJZYR091XQEWJS0 \
   --env JAVA_MEM_MB=768 \
   --privileged \
   -t -i "stuckless/${CONTAINER}" $1
