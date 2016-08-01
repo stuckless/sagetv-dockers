@@ -6,9 +6,18 @@ FROM stuckless/sagetv-base
 MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
 RUN set -x
-RUN add-apt-repository -y ppa:openjdk-r/ppa
-RUN apt-get update
-RUN apt-get install -y openjdk-7-jdk
+
+# Install Java.
+RUN \
+  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java7-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk7-installer
+
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
 
 RUN apt-get autoremove -y \
     && apt-get clean \
