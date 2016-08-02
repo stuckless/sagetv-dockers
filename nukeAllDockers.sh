@@ -8,5 +8,5 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 # Delete all images except ubuntu base
 # docker rmi --force $(docker images -q)
-docker rmi --force $(docker images -q | grep -v `docker images | grep ubuntu | awk -F " " '{print $3}'`)
+docker rmi --force $(docker images -q | grep -v "`docker images | grep 'ubuntu\|phusion' | awk -F \" \" '{print $3}'`")
 

@@ -1,0 +1,1 @@
+This image builds a dynamically linked comskip for linux
