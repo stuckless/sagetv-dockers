@@ -66,6 +66,7 @@ if [ "Y" = "${OPT_COMSKIP}" ] ; then
 
     mkdir -p /opt/sagetv/comskip/
     cp -v /sagetv_files/comskip/comskip /opt/sagetv/comskip/
+    cp -v /sagetv_files/comskip/comskip.xilka /opt/sagetv/comskip/
     if [ ! -e /opt/sagetv/comskip/comskip.ini ] ; then
         cp -v /sagetv_files/comskip/comskip.ini /opt/sagetv/comskip/
     fi
