@@ -49,6 +49,7 @@ RUN chmod 755 /usr/bin/wine
 RUN mkdir -p /sagetv_files/comskip
 # assumes you've built it, if not, it will fail
 ADD comskip /sagetv_files/comskip
+ADD comskip.xilka /sagetv_files/comskip
 ADD comskip.ini /sagetv_files/comskip
 
 VOLUME ["/var/media", "/var/mediaext", "/opt/sagetv"]

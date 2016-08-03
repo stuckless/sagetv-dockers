@@ -11,6 +11,11 @@ sagetv-setperms.sh
 
 # start the server
 cd /opt/sagetv/server/
+
+if [ -x /opt/sagetv/server/sagetv-user-script.sh ] ; then
+    sudo -s sagetv /opt/sagetv/server/sagetv-user-script.sh
+fi
+
 sudo -u sagetv /opt/sagetv/server/startsage
 
 sleep infinity
