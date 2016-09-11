@@ -23,7 +23,7 @@ make install
 popd
 
 pushd /sources/argtable2-13
-./configure --prefix=/build/comskipbuild/install
+./configure --prefix=/build/comskipbuild/install --disable-shared
 make
 make install
 popd

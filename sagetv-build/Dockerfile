@@ -1,14 +1,8 @@
 # BUILDING
 # docker build -t sagetv-build .
 #
-# RUNNING
-# docker run -t -i -v /home/seans/docker/sagetv-build/SOURCES:/build sagetv-build /bin/bash
-# the run buildsage.sh (from /usr/bin, which does the commands below)
-#
-# GENERATING SAGETV PACKAGES
-# git clone $SAGETV_REPO
-# cd sagetv/build
-# ./buildall.sh
+# RUNNING (ie, rebuild sagetv)
+# docker run -t -v /home/seans/docker/sagetv-build/SOURCES:/build sagetv-build
 #
 # Thanks to coppit, since his sagetv docker container was the basis for this
 
@@ -46,3 +40,6 @@ ADD buildsage.sh /usr/bin/
 VOLUME ["/build"]
 
 WORKDIR /build
+
+CMD /usr/bin/buildsage.sh
+
