@@ -6,8 +6,12 @@ FROM ubuntu:16.04
 MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
 ENV APP_NAME="SageTV Media Server"
-
 ENV DEBIAN_FRONTEND=noninteractive
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # add sagetv user and group
 RUN useradd -u 911 -U -d /opt/sagetv -s /bin/bash -G video sagetv

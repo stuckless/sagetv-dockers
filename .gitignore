@@ -1,8 +1,7 @@
 .idea/
 tmpdata/
 tmpdocker/
-runSeanServer.sh
-runSeanServer2.sh
+runSeanServer*.sh
 */build/
 
 

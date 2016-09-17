@@ -13,6 +13,11 @@ MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 ENV APP_NAME="SageTV Builder"
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 # Speed up APT
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
   && echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache

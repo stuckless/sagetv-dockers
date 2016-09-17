@@ -1,33 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Containers>
+<?xml version="1.0"?>
+<Container version="2">
     <Beta>{{BETA}}</Beta>
-    <Category>{{CATEGORY}}</Category>
     <Name>{{OWNER}}-{{CONTAINER}}-{{CONTAINER_POSTFIX}}</Name>
-    <Description>
-        {{DESCRIPTION}}
-    </Description>
+    <Repository>{{OWNER}}/{{CONTAINER}}-{{CONTAINER_POSTFIX}}</Repository>
+    <Registry>https://hub.docker.com/r/{{OWNER}}/{{CONTAINER}}-{{CONTAINER_POSTFIX}}/</Registry>
+    <GitHub>{{GITHUB}}</GitHub>
+    <Network>host</Network>
+    <Privileged>true</Privileged>
+    <Support>{{SUPPORT}}</Support>
     <Overview>
         {{OVERVIEW}}
     </Overview>
-    <Support>{{SUPPORT}}</Support>
-    <Registry>https://hub.docker.com/r/{{OWNER}}/{{CONTAINER}}-{{CONTAINER_POSTFIX}}/</Registry>
-    <GitHub>{{GITHUB}}</GitHub>
-    <Repository>{{OWNER}}/{{CONTAINER}}-{{CONTAINER_POSTFIX}}</Repository>
-    <BindTime>true</BindTime>
-    <Privileged>true</Privileged>
+    <Category>{{CATEGORY}}</Category>
+    <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+    <TemplateURL/>
+    <Icon>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Icon>
+    <ExtraParams/>
+
+    <Description>
+        {{DESCRIPTION}}
+    </Description>
     <Networking>
         <Mode>host</Mode>
         <Publish>
             <Port>
                 <HostPort>8080</HostPort>
                 <ContainerPort>8080</ContainerPort>
-                <Protocol>tcp</Protocol>
-            </Port>
-
-            <!-- sagetv required ports -->
-            <Port>
-                <HostPort>42024</HostPort>
-                <ContainerPort>42024</ContainerPort>
                 <Protocol>tcp</Protocol>
             </Port>
             <Port>
@@ -65,55 +63,21 @@
                 <ContainerPort>16881</ContainerPort>
                 <Protocol>tcp</Protocol>
             </Port>
+            <Port>
+                <HostPort>42024</HostPort>
+                <ContainerPort>42024</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
         </Publish>
     </Networking>
-    <Environment>
-        <Variable>
-            <!-- install gentuner -->
-            <Name>OPT_GENTUNER</Name>
-            <Value>Y</Value>
-        </Variable>
-        <Variable>
-            <!-- install command ir -->
-            <Name>OPT_COMMANDIR</Name>
-            <Value>Y</Value>
-        </Variable>
-        <Variable>
-            <!-- Configure for COMSKIP -->
-            <Name>OPT_COMSKIP</Name>
-            <Value>Y</Value>
-        </Variable>
-        <Variable>
-            <!-- SageTV License -->
-            <Name>LICENCE_DATA</Name>
-            <Value></Value>
-        </Variable>
-        <Variable>
-            <!-- SageTV Memory in MB -->
-            <Name>JAVA_MEM_MB</Name>
-            <Value>768</Value>
-        </Variable>
-        <Variable>
-            <Name>PUID</Name>
-            <Value>99</Value>
-        </Variable>
-        <Variable>
-            <Name>PGID</Name>
-            <Value>100</Value>
-        </Variable>
-        <Variable>
-            <Name>VIDEO_GUID</Name>
-            <Value>18</Value>
-        </Variable>
-    </Environment>
     <Data>
         <Volume>
-            <HostDir>/mnt/user/apps/sagetv/</HostDir>
+            <HostDir>/mnt/user/appdata/sagetv/</HostDir>
             <ContainerDir>/opt/sagetv</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
         <Volume>
-            <HostDir>/mnt/user/media/sagetv/</HostDir>
+            <HostDir>/mnt/user/sagemedia/</HostDir>
             <ContainerDir>/var/media</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
@@ -122,9 +86,92 @@
             <ContainerDir>/var/mediaext</ContainerDir>
             <Mode>rw</Mode>
         </Volume>
+        <Volume>
+            <HostDir>/mnt/user</HostDir>
+            <ContainerDir>/unraid</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
     </Data>
-    <WebUI>http://[IP]:[PORT:8080]/</WebUI>
-    <Banner>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Banner>
-    <Icon>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Icon>
-    <ExtraParams></ExtraParams>
-</Containers>
+    <Environment>
+        <Variable>
+            <Value>latest</Value>
+            <Name>VERSION</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>768</Value>
+            <Name>JAVA_MEM_MB</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value></Value>
+            <Name>LICENCE_DATA</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>Y</Value>
+            <Name>OPT_GENTUNER</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>N</Value>
+            <Name>OPT_COMMANDIR</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>Y</Value>
+            <Name>OPT_COMSKIP</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>Y</Value>
+            <Name>OPT_SETPERMS</Name>
+            <Mode/>
+        </Variable>
+    </Environment>
+    <Config Name="Port 1" Target="8080" Default="8080" Mode="tcp" Description="SageTV WebServer Port 8080" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">8080</Config>
+    <Config Name="Port 2" Target="42024" Default="42024" Mode="tcp" Description="Container Port: 42024" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">42024</Config>
+    <Config Name="Port 3" Target="7818" Default="7818" Mode="tcp" Description="Container Port: 7818" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">7818</Config>
+    <Config Name="Port 4" Target="8270" Default="8270" Mode="udp" Description="Container Port: 8270" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">8270</Config>
+    <Config Name="Port 5" Target="31100" Default="31100" Mode="udp" Description="Container Port: 31100" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">31100</Config>
+    <Config Name="Port 6" Target="31099" Default="31099" Mode="tcp" Description="Container Port: 31099" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">31099</Config>
+    <Config Name="Port 7" Target="16867" Default="16867" Mode="udp" Description="Container Port: 16867" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">16867</Config>
+    <Config Name="Port 8" Target="16869" Default="16869" Mode="udp" Description="Container Port: 16869" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">16869</Config>
+    <Config Name="Port 9" Target="16881" Default="16881" Mode="tcp" Description="Container Port: 16881" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">16881</Config>
+
+    <Config Name="Path 1" Target="/opt/sagetv" Default="/mnt/user/appdata/sagetv/" Mode="rw"
+            Description="SageTV base directory" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/sagetv/</Config>
+
+    <Config Name="Path 2" Target="/var/media" Default="/mnt/user/media/sagetv/" Mode="rw"
+            Description="SageTV Media Directory (for recordings, etc)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/sagemedia/</Config>
+
+    <Config Name="Path 3" Target="/var/mediaext" Default="/mnt/user/media/videos/" Mode="rw"
+            Description="SageTV videos directory for other imported video files" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/media/videos/</Config>
+
+    <Config Name="unRAID Share Path" Target="/unraid" Default="/mnt/user" Mode="rw"
+            Description="Container Path: /unraid" Type="Path" Display="hidden" Required="false" Mask="false">/mnt/user</Config>
+
+    <Config Name="Variable 1" Target="VERSION" Default="latest" Mode="" Description="SageTV Version" Type="Variable"
+            Display="always" Required="true" Mask="false">latest</Config>
+    <Config Name="Variable 2" Target="JAVA_MEM_MB" Default="768" Mode="" Description="Java Memory in MB"
+            Type="Variable" Display="always" Required="false" Mask="false">768</Config>
+    <Config Name="Variable 3" Target="LICENCE_DATA" Default="" Mode="" Description="SageTV License Key"
+            Type="Variable" Display="always" Required="false" Mask="false"></Config>
+    <Config Name="Variable 4" Target="OPT_GENTUNER" Default="Y" Mode="" Description="Install Gentuner Plugin"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">Y</Config>
+    <Config Name="Variable 5" Target="OPT_COMMANDIR" Default="N" Mode="" Description="Install CommandIR files"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">N</Config>
+    <Config Name="Variable 6" Target="OPT_COMSKIP" Default="Y" Mode="" Description="Install native comskip files"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">Y</Config>
+    <Config Name="Variable 7" Target="OPT_SETPERMS" Default="Y" Mode="" Description="Set permissions on startup"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">Y</Config>
+</Container>
