@@ -102,6 +102,10 @@ if [ ! -e ${SAGE_START} ] || [ "${UPGRADE}" = "Y" ] || file libSage.so|grep '32-
     echo "${SAGE_VERSION}" > ${SAGE_CUR_VERSION_FILE}
     SAGE_CUR_VERSION=${SAGE_VERSION}
 
+    # force setting permissions after install
+    export OPT_SETPERMS=Y
+
+
     if [ "Y" = "${OPT_GENTUNER}" ] ; then
         wget -O gentuner.tgz https://bintray.com/artifact/download/opensagetv/sagetv-plugins/GenericTunerPluginLinux/gentuner-1.0.1.tgz
         tar -zxvf gentuner.tgz
@@ -113,38 +117,39 @@ if [ ! -e ${SAGE_START} ] || [ "${UPGRADE}" = "Y" ] || file libSage.so|grep '32-
         tar -zxvf commandir.tgz -C ../../../
         rm -f commandir.tgz
     fi
+
+    # if configuring comskip, then setup the comskip values
+    if [ "Y" = "${OPT_COMSKIP}" ] ; then
+        echo "Configuring Comskip"
+
+        mkdir -p /opt/sagetv/comskip/
+        cp -v /sagetv_files/comskip/comskip /opt/sagetv/comskip/
+        cp -v /sagetv_files/comskip/comskip.xilka /opt/sagetv/comskip/
+        if [ ! -e /opt/sagetv/comskip/comskip.ini ] ; then
+            cp -v /sagetv_files/comskip/comskip.ini /opt/sagetv/comskip/
+        fi
+
+        SAGE_PROPS=Sage.properties
+        SAGE_PROPS_TMP=Sage.properties.tmp
+        if [ -e ${SAGE_PROPS} ] ; then
+            CSEXE="cd/comskip_location="
+            CSINI="cd/ini_location="
+            cat ${SAGE_PROPS} | grep -v "cd/running_as_root=" | grep -v "cd/server_is=" | grep -v "cd/wine_home=" | grep -v "cd/wine_user=" | grep -v "${CSEXE}" | grep -v "${CSINI}" > ${SAGE_PROPS_TMP}
+        fi
+        echo "cd/running_as_root=false" >> ${SAGE_PROPS_TMP}
+        echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
+        echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}
+        echo "cd/wine_user=sagetv" >> ${SAGE_PROPS_TMP}
+        echo "cd/comskip_location=/opt/sagetv/comskip/comskip" >> ${SAGE_PROPS_TMP}
+        echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
+        cat ${SAGE_PROPS_TMP} | sort | uniq > ${SAGE_PROPS}
+        rm ${SAGE_PROPS_TMP}
+    fi
 else
     echo "SageTV Already At Version: ${SAGE_VERSION}, exiting..."
     exit 0
 fi
 
-# if configuring comskip, then setup the comskip values
-if [ "Y" = "${OPT_COMSKIP}" ] ; then
-    echo "Configuring Comskip"
-
-    mkdir -p /opt/sagetv/comskip/
-    cp -v /sagetv_files/comskip/comskip /opt/sagetv/comskip/
-    cp -v /sagetv_files/comskip/comskip.xilka /opt/sagetv/comskip/
-    if [ ! -e /opt/sagetv/comskip/comskip.ini ] ; then
-        cp -v /sagetv_files/comskip/comskip.ini /opt/sagetv/comskip/
-    fi
-
-    SAGE_PROPS=Sage.properties
-    SAGE_PROPS_TMP=Sage.properties.tmp
-    if [ -e ${SAGE_PROPS} ] ; then
-        CSEXE="cd/comskip_location="
-        CSINI="cd/ini_location="
-        cat ${SAGE_PROPS} | grep -v "cd/running_as_root=" | grep -v "cd/server_is=" | grep -v "cd/wine_home=" | grep -v "cd/wine_user=" | grep -v "${CSEXE}" | grep -v "${CSINI}" > ${SAGE_PROPS_TMP}
-    fi
-    echo "cd/running_as_root=false" >> ${SAGE_PROPS_TMP}
-    echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
-    echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}
-    echo "cd/wine_user=sagetv" >> ${SAGE_PROPS_TMP}
-    echo "cd/comskip_location=/opt/sagetv/comskip/comskip" >> ${SAGE_PROPS_TMP}
-    echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
-    cat ${SAGE_PROPS_TMP} | sort | uniq > ${SAGE_PROPS}
-    rm ${SAGE_PROPS_TMP}
-fi
 
 cd ${SAGE_HOME}
 
