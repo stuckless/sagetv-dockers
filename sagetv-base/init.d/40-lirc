@@ -26,14 +26,17 @@ if [ -e /opt/sagetv/server/lirc.d/ ] ; then
     # update lirc hardware and conf files
     if [ -e /opt/sagetv/server/lirc.d/hardware.conf ] ; then
         cp -v /opt/sagetv/server/lirc.d/hardware.conf /etc/lirc.d/hardware.conf
+        dos2unix /etc/lirc.d/hardware.conf
     fi
 
     if [ -e /opt/sagetv/server/lirc.d/lircd.conf ] ; then
         cp -v /opt/sagetv/server/lirc.d/lircd.conf /etc/lirc.d/lircd.conf
+        dos2unix /etc/lirc.d/lircd.conf
     fi
 
     if [ -e /opt/sagetv/server/lirc.d/gentuner.lirc ] ; then
         cp -v /opt/sagetv/server/lirc.d/gentuner.lirc /opt/sagetv/server/gentuner
+        dos2unix /opt/sagetv/server/gentuner
         chown sagetv:sagetv /opt/sagetv/server/gentuner
         chmod 775 /opt/sagetv/server/gentuner
     fi

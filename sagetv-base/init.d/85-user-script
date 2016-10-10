@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -e /opt/sagetv/server/sagetv-user-script.sh ] ; then
+    dos2unix /opt/sagetv/server/sagetv-user-script.sh
+    chown sagetv:sagtv /opt/sagetv/server/sagetv-user-script.sh
+    chmod 755 /opt/sagetv/server/sagetv-user-script.sh
+    sudo -u sagetv /opt/sagetv/server/sagetv-user-script.sh
+fi
+

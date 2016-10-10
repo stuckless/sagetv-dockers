@@ -27,7 +27,7 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
 RUN set -x \
   && apt-get update \
   && apt-get install -y wget curl libfaad2 net-tools file \
-    less vim software-properties-common unzip cifs-utils lirc
+    less vim software-properties-common unzip cifs-utils lirc dos2unix
 
 # comskip stuff
 RUN add-apt-repository -y universe && apt-get update && apt-get install -y libargtable2-0 ffmpeg sudo
@@ -67,6 +67,9 @@ RUN chmod 755 /etc/my_init.d/30-setperms
 
 ADD init.d/40-lirc /etc/my_init.d/40-lirc
 RUN chmod 755 /etc/my_init.d/40-lirc
+
+ADD init.d/85-user-script /etc/my_init.d/85-user-script
+RUN chmod 755 /etc/my_init.d/85-user-script
 
 ADD init.d/90-sagetv /etc/my_init.d/90-sagetv
 RUN chmod 755 /etc/my_init.d/90-sagetv
