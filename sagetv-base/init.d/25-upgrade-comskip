@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# Options
+OPT_COMSKIP=${OPT_COMSKIP:-Y}
+
+if [ "Y" != "${OPT_COMSKIP}" ] ; then
+  exit 0;
+fi
+
+if [ -e "/opt/sagetv/comskip/comskip" ] ; then
+    echo "Comskip already installed"
+    exit 0;
+fi
+
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+cd ${SAGE_HOME}
+
+echo "Configuring Comskip"
+
+mkdir -p /opt/sagetv/comskip/
+cp -v /sagetv_files/comskip/comskip /opt/sagetv/comskip/
+cp -v /sagetv_files/comskip/comskip.xilka /opt/sagetv/comskip/
+if [ ! -e /opt/sagetv/comskip/comskip.ini ] ; then
+    cp -v /sagetv_files/comskip/comskip.ini /opt/sagetv/comskip/
+fi
+
+SAGE_PROPS=Sage.properties
+SAGE_PROPS_TMP=Sage.properties.tmp
+if [ -e ${SAGE_PROPS} ] ; then
+    CSEXE="cd/comskip_location="
+    CSINI="cd/ini_location="
+    cat ${SAGE_PROPS} | grep -v "cd/running_as_root=" | grep -v "cd/server_is=" | grep -v "cd/wine_home=" | grep -v "cd/wine_user=" | grep -v "${CSEXE}" | grep -v "${CSINI}" > ${SAGE_PROPS_TMP}
+fi
+echo "cd/running_as_root=false" >> ${SAGE_PROPS_TMP}
+echo "cd/server_is=linux" >> ${SAGE_PROPS_TMP}
+echo "cd/wine_home=" >> ${SAGE_PROPS_TMP}
+echo "cd/wine_user=sagetv" >> ${SAGE_PROPS_TMP}
+echo "cd/comskip_location=/opt/sagetv/comskip/comskip" >> ${SAGE_PROPS_TMP}
+echo "cd/ini_location=/opt/sagetv/comskip/comskip.ini" >> ${SAGE_PROPS_TMP}
+cat ${SAGE_PROPS_TMP} | sort | uniq > ${SAGE_PROPS}
+rm ${SAGE_PROPS_TMP}

@@ -1,3 +1,0 @@
-
-# sagetv is in the video group, this allows it to run root commands with out a password in this docker container
-%video   ALL=(ALL:ALL) NOPASSWD:ALL

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+OPT_COMMANDIR=${OPT_COMMANDIR:-N}
+
+if [ "Y" != "${OPT_COMMANDIR}" ] ; then
+  exit 0;
+fi
+
+if [ -e "/opt/sagetv/commandir/bin/commandir_send" ] ; then
+    echo "CommandIR already installed"
+    exit 0;
+fi
+
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+cd ${SAGE_HOME}
+
+wget -O commandir.tgz https://bintray.com/artifact/download/opensagetv/sagetv-plugins/CommandIR-AMD64/commandir-1.0.3.1-amd64.tgz
+tar -zxvf commandir.tgz -C ../../../
+rm -f commandir.tgz
+
+if [ -e /opt/sagetv/commandir/bin ] ; then
+    chown -Rv root:sagetv /opt/sagetv/commandir/bin
+    chmod u+s /opt/sagetv/commandir/bin/commandir*
+fi
+
+echo "CommandIR installed"
+
+exit 0

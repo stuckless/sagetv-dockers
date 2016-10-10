@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+OPT_LIRC=${OPT_LIRC:-N}
+
+if [ -e /usr/bin/irsend ] ; then
+    chown -Rv root:sagetv /usr/bin/irsend
+    chmod u+s /usr/bin/irsend
+fi
+
+if [ -e /dev/lirc0 ] ; then
+    chown -Rv root:sagetv /dev/lirc0
+    chmod 775 /dev/lirc0
+fi
+
+if [ -e /dev/lirc1 ] ; then
+    chown -Rv root:sagetv /dev/lirc1
+    chmod 775 /dev/lirc1
+fi
+
+if [ "${OPT_LIRC}" != "Y" ] ; then
+    # LIRC not enabled
+    exit 0
+fi
+
+if [ -e /opt/sagetv/server/lirc.d/ ] ; then
+    # update lirc hardware and conf files
+    if [ -e /opt/sagetv/server/lirc.d/hardware.conf ] ; then
+        cp -v /opt/sagetv/server/lirc.d/hardware.conf /etc/lirc.d/hardware.conf
+    fi
+
+    if [ -e /opt/sagetv/server/lirc.d/lircd.conf ] ; then
+        cp -v /opt/sagetv/server/lirc.d/lircd.conf /etc/lirc.d/lircd.conf
+    fi
+
+    if [ -e /opt/sagetv/server/lirc.d/gentuner.lirc ] ; then
+        cp -v /opt/sagetv/server/lirc.d/gentuner.lirc /opt/sagetv/server/gentuner
+        chown sagetv:sagetv /opt/sagetv/server/gentuner
+        chmod 775 /opt/sagetv/server/gentuner
+    fi
+fi
+
+echo "Starting LIRC Daemon"
+
+/etc/init.d/lirc start
+
+exit 0

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+OPT_SETPERMS=${OPT_SETPERMS:-Y}
+
+if [ ${OPT_SETPERMS} != "Y" ] ; then
+    exit 0
+fi
+
+chown -Rv sagetv:sagetv /var/media
+chown -Rv sagetv:sagetv /opt/sagetv
+chown -v root:sagetv /var/run
+chown -v root:sagetv /run
+chmod 775 /var/run/
+chmod 775 /run/
+
+# allow mount to run as root
+chmod -v u+s /sbin/mount*
+chmod -v u+s /bin/mount*
+
+exit 0

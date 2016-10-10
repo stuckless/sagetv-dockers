@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Options
+OPT_GENTUNER=${OPT_GENTUNER:-Y}
+
+# make sure gentuner has propper permissions
+if [ -e /opt/sagetv/server/gentuner ] ; then
+    chmod 775 /opt/sagetv/server/gentuner
+fi
+
+if [ "Y" != "${OPT_GENTUNER}" ] ; then
+  exit 0;
+fi
+
+if [ -e "/opt/sagetv/server/irtunerplugins/GenericTunerPlugin.so" ] ; then
+    echo "Generic Tuner Plugin already installed"
+    exit 0;
+fi
+
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+cd ${SAGE_HOME}
+
+wget -O gentuner.tgz https://bintray.com/artifact/download/opensagetv/sagetv-plugins/GenericTunerPluginLinux/gentuner-1.0.1.tgz
+tar -zxvf gentuner.tgz
+rm -f gentuner.tgz
+
+echo "Generic Tuner Plugin installed"
+
+exit 0

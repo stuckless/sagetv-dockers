@@ -5,14 +5,17 @@
 ### OPT_GENTUNER
 `Y/N` Install gentuner plugin for external STB tuning. See https://github.com/jwittkoski/GenericTunerPlugin
 
-### OPT_COMMANDIR
-`Y/N` Install commandIR tools to using commandIR to tune STB.  It appears the CommandIR is no longer in business.
+### OPT_LIRC `new`
+`Y/N` Install/Start LIRC Daemon.  This will configure and set permissions for `/dev/lirc*`. If `SAGE_HOME/lirc.d/hardware.conf` exists, then it will be copied to `/etc/lirc.d/` and if `SAGEHOME/lirc.d/lircd.conf` exists, it will be copied to `/etc/lirc.d/`.  If `SAGE_HOME/lirc.d/gentuner.lirc` exists, it will be copied to `gentuner` in the `SAGE_HOME` dir and used of the `GENTUNER` script for LIRC.
 
 ### OPT_COMSKIP
 `Y/N` Install linux comskip binaries.  Note this does not configure comskip or install the SageTV plugins.  It just adds the binaries for comskip.
 
 ### OPT_SETPERMS `new`
 `Y/N` Set all permissions on all SageTV files and media on startup.  Can be slow, but use it if you have permission issues.
+
+### OPT_COMMANDIR (deprecated)
+`Y/N` Install commandIR tools to using commandIR to tune STB.  It appears the CommandIR is no longer in business.
 
 ### PUID
 Numeric USERID of SageTV instance.  Default `99`.  This should be the real userid on the host system.
