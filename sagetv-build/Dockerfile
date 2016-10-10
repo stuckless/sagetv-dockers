@@ -1,8 +1,8 @@
 # BUILDING
-# docker build -t sagetv-build .
+# docker build -t stuckless/sagetv-build:latest .
 #
 # RUNNING (ie, rebuild sagetv)
-# docker run -t -v /home/seans/docker/sagetv-build/SOURCES:/build sagetv-build
+# docker run -t -v /home/seans/docker/sagetv-build/SOURCES:/build --name sagetv-server stuckless/sagetv-build
 #
 # Thanks to coppit, since his sagetv docker container was the basis for this
 
