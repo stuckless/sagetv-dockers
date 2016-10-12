@@ -3,19 +3,22 @@
 OPT_LIRC=${OPT_LIRC:-N}
 
 if [ -e /usr/bin/irsend ] ; then
-    chown -Rv root:sagetv /usr/bin/irsend
-    chmod u+s /usr/bin/irsend
+    chown -Rv root:sagetv /usr/bin/irsend | grep -v 'retained'
+    chmod -v u+s /usr/bin/irsend | grep -v 'retained'
 fi
 
 if [ -e /dev/lirc0 ] ; then
-    chown -Rv root:sagetv /dev/lirc0
-    chmod 775 /dev/lirc0
+    chown -Rv root:sagetv /dev/lirc0 | grep -v 'retained'
+    chmod -v 775 /dev/lirc0 | grep -v 'retained'
 fi
 
 if [ -e /dev/lirc1 ] ; then
-    chown -Rv root:sagetv /dev/lirc1
-    chmod 775 /dev/lirc1
+    chown -Rv root:sagetv /dev/lirc1 | grep -v 'retained'
+    chmod -v 775 /dev/lirc1 | grep -v 'retained'
 fi
+
+chown -Rv root:sagetv /dev/ttyUSB* | grep -v 'retained'
+chmod -v 775 /dev/ttyUSB* | grep -v 'retained'
 
 if [ "${OPT_LIRC}" != "Y" ] ; then
     # LIRC not enabled
@@ -25,12 +28,12 @@ fi
 if [ -e /opt/sagetv/server/lirc.d/ ] ; then
     # update lirc hardware and conf files
     if [ -e /opt/sagetv/server/lirc.d/hardware.conf ] ; then
-        cp -v /opt/sagetv/server/lirc.d/hardware.conf /etc/lirc.d/hardware.conf
+        cp -v /opt/sagetv/server/lirc.d/hardware.conf /etc/lirc/hardware.conf
         dos2unix /etc/lirc.d/hardware.conf
     fi
 
     if [ -e /opt/sagetv/server/lirc.d/lircd.conf ] ; then
-        cp -v /opt/sagetv/server/lirc.d/lircd.conf /etc/lirc.d/lircd.conf
+        cp -v /opt/sagetv/server/lirc.d/lircd.conf /etc/lirc/lircd.conf
         dos2unix /etc/lirc.d/lircd.conf
     fi
 

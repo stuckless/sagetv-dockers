@@ -6,7 +6,7 @@ OPT_GENTUNER=${OPT_GENTUNER:-Y}
 # make sure gentuner has propper permissions
 if [ -e /opt/sagetv/server/gentuner ] ; then
     dos2unix /opt/sagetv/server/gentuner
-    chmod 775 /opt/sagetv/server/gentuner
+    chmod -v 775 /opt/sagetv/server/gentuner | grep -v 'retained'
 fi
 
 if [ "Y" != "${OPT_GENTUNER}" ] ; then

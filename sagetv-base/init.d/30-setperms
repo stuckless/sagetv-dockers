@@ -6,15 +6,15 @@ if [ ${OPT_SETPERMS} != "Y" ] ; then
     exit 0
 fi
 
-chown -Rv sagetv:sagetv /var/media
-chown -Rv sagetv:sagetv /opt/sagetv
-chown -v root:sagetv /var/run
-chown -v root:sagetv /run
-chmod 775 /var/run/
-chmod 775 /run/
+chown -Rv sagetv:sagetv /var/media | grep -v 'retained'
+chown -Rv sagetv:sagetv /opt/sagetv | grep -v 'retained'
+chown -v root:sagetv /var/run | grep -v 'retained'
+chown -v root:sagetv /run | grep -v 'retained'
+chmod -v 775 /var/run/ | grep -v 'retained'
+chmod -v 775 /run/ | grep -v 'retained'
 
 # allow mount to run as root
-chmod -v u+s /sbin/mount*
-chmod -v u+s /bin/mount*
+chmod -v u+s /sbin/mount* | grep -v 'retained'
+chmod -v u+s /bin/mount* | grep -v 'retained'
 
 exit 0
