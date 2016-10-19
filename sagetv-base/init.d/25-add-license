@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# set default sagetv home
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+
+# install the license key
+if [ "${LICENCE_DATA}" != "" ] ; then
+    KEYDATA="$(echo "${LICENCE_DATA}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+    if [ ! -e ${SAGE_HOME}/activkey.old ] ; then
+        if [ -e ${SAGE_HOME}/activkey ] ; then
+            cp ${SAGE_HOME}/activkey ${SAGE_HOME}/activkey.old
+        fi
+    fi
+    if [ "${KEYDATA}" != "" ] ; then
+        echo "Updating License"
+        echo -n "${KEYDATA}" > ${SAGE_HOME}/activkey
+    fi
+fi

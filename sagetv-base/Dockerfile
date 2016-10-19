@@ -62,6 +62,12 @@ RUN chmod 755 /etc/my_init.d/25-upgrade-comskip
 ADD init.d/25-upgrade-gentuner /etc/my_init.d/25-upgrade-gentuner
 RUN chmod 755 /etc/my_init.d/25-upgrade-gentuner
 
+ADD init.d/25-add-license /etc/my_init.d/25-add-license
+RUN chmod 755 /etc/my_init.d/25-add-license
+
+ADD init.d/25-update-memory /etc/my_init.d/25-update-memory
+RUN chmod 755 /etc/my_init.d/25-update-memory
+
 ADD init.d/30-setperms /etc/my_init.d/30-setperms
 RUN chmod 755 /etc/my_init.d/30-setperms
 

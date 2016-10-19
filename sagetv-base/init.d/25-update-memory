@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# set default sagetv home
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+
+# set java memory
+if [ "${JAVA_MEM_MB}" != "" ] ; then
+    echo "Updating Java Mem"
+    if [ ! -e ${SAGE_HOME}/sagesettings.old ]; then
+        if [ -e ${SAGE_HOME}/sagesettings ] ; then
+            cp ${SAGE_HOME}/sagesettings ${SAGE_HOME}/sagesettings.old
+        fi
+    fi
+    # JAVAMEM=-Xmx768m
+    echo "export JAVAMEM=-Xmx${JAVA_MEM_MB}m" > ${SAGE_HOME}/sagesettings
+    chmod 755 ${SAGE_HOME}/sagesettings
+fi
+
