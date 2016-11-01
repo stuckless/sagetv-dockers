@@ -62,6 +62,12 @@ else
     exit 1
 fi
 
+# check if offline, and attempt to continue
+if [ "${SAGE_VERSION}" = "" ] ; then
+    echo "Could not check online version.  Trying to continue with currently installed version";
+    exit 0
+fi
+
 SAGE_CUR_VERSION=0
 if [ -e ${SAGE_CUR_VERSION_FILE} ] ; then
     SAGE_CUR_VERSION=`cat ${SAGE_CUR_VERSION_FILE}`
