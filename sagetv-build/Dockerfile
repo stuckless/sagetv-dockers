@@ -25,16 +25,32 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup \
 # Install dependencies
 RUN set -x && apt-get update \
     && apt-get install -y unzip \
+        python-software-properties software-properties-common \
         build-essential \
         git \
         libx11-dev libxt-dev libraw1394-dev libavc1394-dev libiec61883-dev \
-        libfreetype6-dev yasm autoconf libtool openjdk-7-jdk \
+        libfreetype6-dev yasm autoconf libtool \
         libaudio-dev libpulse-dev libasound-dev
+
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk8-installer
+
+RUN apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # these env vars remain persistent when the image is run
 ENV JAVA_ARCH="amd64"
-ENV JDK_HOME="/usr/lib/jvm/java-7-openjdk-$JAVA_ARCH/"
+#ENV JDK_HOME="/usr/lib/jvm/java-8-openjdk-$JAVA_ARCH/"
+ENV JDK_HOME /usr/lib/jvm/java-8-oracle
 ENV SAGETV_REPO="https://github.com/google/sagetv.git"
+ENV PUID=1000
+ENV GUID=1000
 
 RUN mkdir /build
 
