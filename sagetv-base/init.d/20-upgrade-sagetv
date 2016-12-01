@@ -6,7 +6,7 @@ VERSION=${VERSION:-latest}
 # SageTV Version
 SAGE_VERSION=""
 if [ "${VERSION}" = "latest" ] ; then
-    SAGE_VERSION=`curl https://dl.bintray.com/opensagetv/sagetv/sagetv/ | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/' | egrep -e '9\.[0-9]+' | sort | tail -1`
+    SAGE_VERSION=`curl https://dl.bintray.com/opensagetv/sagetv/sagetv/ | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/' | egrep -e '9\.[0-9]+' | sort -V | tail -1`
 else
     SAGE_VERSION=${VERSION}
 fi
