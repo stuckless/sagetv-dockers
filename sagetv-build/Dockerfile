@@ -30,7 +30,7 @@ RUN set -x && apt-get update \
         git \
         libx11-dev libxt-dev libraw1394-dev libavc1394-dev libiec61883-dev \
         libfreetype6-dev yasm autoconf libtool \
-        libaudio-dev libpulse-dev libasound-dev
+        libaudio-dev libpulse-dev libasound-dev liba52-dev
 
 RUN \
   echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
