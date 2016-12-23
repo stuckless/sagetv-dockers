@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+OPT_JSTATD=${OPT_JSTATD:-N}
+
+if [ "${OPT_JSTATD}" != "Y" ] ; then
+    echo "JSTATD Remote Java Debugging is disabled."
+    exit 0
+fi
+
+echo "JSTATD Enabling Remote Java Debugging on default port"
+
+policy=/root/.jstatd.all.policy
+cat >${policy} <<'POLICY'
+grant codebase "file:/usr/lib/jvm/java-8-oracle/lib/tools.jar" {
+  permission java.security.AllPermission;
+};
+POLICY
+
+cat ${policy}
+
+# NOTE: jvisualvm doesn't support alternate port and name
+#/usr/lib/jvm/java-8-oracle/bin/rmiregistry -J-Djava.rmi.server.codebase=file:/usr/lib/jvm/java-8-oracle/lib/tools.jar ${OPT_JSTATD_PORT} &
+#/usr/lib/jvm/java-8-oracle/bin/jstatd -J-Djava.security.policy=${policy} -p ${OPT_JSTATD_PORT} -n "${OPT_JSTATD_NAME}" &
+/usr/lib/jvm/java-8-oracle/bin/jstatd -J-Djava.security.policy=${policy} &
+echo "JSTATD started on default port with JMX on port 9010"

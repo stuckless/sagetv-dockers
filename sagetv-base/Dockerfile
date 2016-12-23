@@ -80,6 +80,9 @@ RUN chmod 755 /etc/my_init.d/85-user-script
 ADD init.d/90-sagetv /etc/my_init.d/90-sagetv
 RUN chmod 755 /etc/my_init.d/90-sagetv
 
+ADD init.d/95-jstatd /etc/my_init.d/95-jstatd
+RUN chmod 755 /etc/my_init.d/95-jstatd
+
 # how to add a service...
 #RUN mkdir /etc/service/complete
 #ADD services.d/99-complete /etc/service/complete/run
