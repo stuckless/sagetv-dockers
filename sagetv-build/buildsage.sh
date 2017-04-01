@@ -48,6 +48,6 @@ else
     fi
 
     echo "Setting persmissions..."
-    chown -R $PUID:$PGID sagetv
+    chown -R $PUID:$PGID sagetv/.[^.]*
 fi
 

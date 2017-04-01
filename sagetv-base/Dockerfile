@@ -8,6 +8,9 @@ CMD ["/sbin/my_init"]
 
 MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
+# The docker container version, not SageTV version
+ENV SAGETV_DOCKER_VERSION="1.0.1"
+
 ENV APP_NAME="SageTV Media Server"
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -83,6 +86,9 @@ RUN chmod 755 /etc/my_init.d/90-sagetv
 ADD init.d/95-jstatd /etc/my_init.d/95-jstatd
 RUN chmod 755 /etc/my_init.d/95-jstatd
 
+ADD init.d/99-zmessage /etc/my_init.d/99-zmessage
+RUN chmod 755 /etc/my_init.d/99-zmessage
+
 # how to add a service...
 #RUN mkdir /etc/service/complete
 #ADD services.d/99-complete /etc/service/complete/run
@@ -98,7 +104,6 @@ RUN chmod 755 /usr/bin/wine
 RUN mkdir -p /sagetv_files/comskip
 # assumes you've built it, if not, it will fail
 ADD comskip.d/comskip /sagetv_files/comskip
-ADD comskip.d/comskip.xilka /sagetv_files/comskip
 ADD comskip.d/comskip.ini /sagetv_files/comskip
 
 VOLUME ["/var/media", "/var/mediaext", "/opt/sagetv"]
