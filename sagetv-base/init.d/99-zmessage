@@ -2,7 +2,7 @@
 
 echo ""
 echo "************************************************"
-echo "SageTV unRAID/Docker is running"
+echo "SageTV unRAID/Docker (Container Version: ${SAGETV_CONTAINER_VERSION}) is running"
 echo "If this is your first time, install the Windows/Mac/Linux Placeshifter or the Android MiniClient and complete the configuration"
 echo "Setting up tuners, scheduling recordings, installing plugins, etc, requires using the Placeshifter or MiniClient"
 echo "To gain browser access, install the Jetty WebServer Plugin"

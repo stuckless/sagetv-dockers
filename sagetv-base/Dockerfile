@@ -9,7 +9,7 @@ CMD ["/sbin/my_init"]
 MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
 # The docker container version, not SageTV version
-ENV SAGETV_DOCKER_VERSION="1.0.1"
+ENV SAGETV_CONTAINER_VERSION="1.0.2"
 
 ENV APP_NAME="SageTV Media Server"
 ENV DEBIAN_FRONTEND=noninteractive

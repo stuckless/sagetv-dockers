@@ -17,8 +17,10 @@ if [ -e /dev/lirc1 ] ; then
     chmod -v 775 /dev/lirc1 | grep -v 'retained'
 fi
 
-chown -Rv root:sagetv /dev/ttyUSB* | grep -v 'retained'
-chmod -v 775 /dev/ttyUSB* | grep -v 'retained'
+if ls /dev/ttyUSB* 1> /dev/null 2>&1; then
+    chown -Rv root:sagetv /dev/ttyUSB* | grep -v 'retained'
+    chmod -v 775 /dev/ttyUSB* | grep -v 'retained'
+fi
 
 if [ "${OPT_LIRC}" != "Y" ] ; then
     # LIRC not enabled

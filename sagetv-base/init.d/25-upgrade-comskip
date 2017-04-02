@@ -9,6 +9,13 @@ fi
 
 if [ -e "/opt/sagetv/comskip/comskip" ] ; then
     echo "Comskip already installed"
+    if ! cmp /sagetv_files/comskip/comskip /opt/sagetv/comskip/comskip >/dev/null 2>&1
+    then
+      # Upgrade comskip
+      echo "Upgrading comskip binary"
+      cp -v /sagetv_files/comskip/comskip /opt/sagetv/comskip/
+    fi
+    # since comskip was installed before, we don't need to do the other other setup
     exit 0;
 fi
 
