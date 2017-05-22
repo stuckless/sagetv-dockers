@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# set the crush admin, if not setup
+CRUSHPASSWORD=${CRUSHPASSWORD:-crush9password}
+
+# start the server
+cd /var/opt/CrushFTP8_PC
+
+if [ ! -d "/var/opt/CrushFTP8_PC/users/MainUsers/crushadmin" ]; then
+    java -jar CrushFTP.jar -a "crushadmin" "${CRUSHPASSWORD}"
+    echo crushadmin created
+fi
+
+sudo -u crushftp java -jar CrushFTP.jar -d &
+
+exit 0

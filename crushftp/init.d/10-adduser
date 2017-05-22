@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+PUID=${PUID:-99}
+PGID=${PGID:-100}
+
+if [ ! "$(id -u crushftp)" -eq "$PUID" ]; then usermod -o -u "$PUID" crushftp ; fi
+if [ ! "$(id -g crushftp)" -eq "$PGID" ]; then groupmod -o -g "$PGID" crushftp ; fi
+

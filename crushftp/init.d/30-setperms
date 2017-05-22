@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+OPT_SETPERMS=${OPT_SETPERMS:-Y}
+
+if [ ${OPT_SETPERMS} != "Y" ] ; then
+    exit 0
+fi
+
+chown -Rv crushftp:crushftp /var/opt/CrushFTP8_PC | grep -v 'retained'
+chown -Rv crushftp:crushftp /files | grep -v 'retained'
+
+exit 0

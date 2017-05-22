@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Options
+VERSION=${VERSION:-latest}
+
+if  [ ! -e "/var/opt/CrushFTP8_PC/CrushFTP.jar" ]; then
+    cd "/var/opt/"
+    unzip -o /tmp/CrushFTP8_PC.zip
+    echo "Crush Upgrade Complete"
+fi
+
+exit 0

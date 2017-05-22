@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo ""
+echo "************************************************"
+echo "CrushFTP is running"
+echo "You should be able to access it on part 9090 (unless you changed it)"
+echo "CrushFTP username is 'crushadmin'"
+echo "************************************************"
