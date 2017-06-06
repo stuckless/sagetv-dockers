@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# set default sagetv home
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+
+# This is destructive... but
+echo "Updating Headless"
+echo "export HEADLESS=false" > ${SAGE_HOME}/sagesettings
+chmod 755 ${SAGE_HOME}/sagesettings
+
+echo "SageTV DEV" > ${SAGE_HOME}/EULAstudio.txt
+echo "" >> ${SAGE_HOME}/Sage.properties
+echo "force_headless_mode=false" >> ${SAGE_HOME}/Sage.properties
+cat ${SAGE_HOME}/Sage.properties | sort | uniq | sponge ${SAGE_HOME}/Sage.properties
+
+echo "SageTV has been configured for Development"
+echo "Press Ctrl+Shift+F12 when in the SageTV UI to launch Studio"
