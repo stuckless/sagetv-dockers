@@ -9,7 +9,7 @@ CMD ["/sbin/my_init"]
 MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
 # The docker container version, not SageTV version
-ENV SAGETV_CONTAINER_VERSION="1.0.2"
+ENV SAGETV_CONTAINER_VERSION="1.0.3"
 
 ENV APP_NAME="SageTV Media Server"
 ENV DEBIAN_FRONTEND=noninteractive
@@ -34,17 +34,6 @@ RUN set -x \
 
 # comskip stuff
 RUN add-apt-repository -y universe && apt-get update && apt-get install -y libargtable2-0 ffmpeg sudo
-
-# java 8 stuff
-#RUN \
-#  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-#  add-apt-repository -y ppa:webupd8team/java && \
-#  apt-get update && \
-#  apt-get install -y oracle-java8-installer && \
-#  rm -rf /var/lib/apt/lists/* && \
-#  rm -rf /var/cache/oracle-jdk8-installer
-#
-#ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 RUN apt-get autoremove -y \
     && apt-get clean \

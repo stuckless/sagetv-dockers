@@ -7,8 +7,9 @@ if [ "$1" = "" ] ; then
     # chmod 775 sagetv-base/comskip
     # stop if any fail
     docker build -t stuckless/sagetv-base:latest sagetv-base/ && \
-    docker build -t stuckless/sagetv-server-java7:latest sagetv-server-java7/ && \
-    docker build -t stuckless/sagetv-server-java8:latest sagetv-server-java8/
+    #docker build -t stuckless/sagetv-server-java7:latest sagetv-server-java7/ && \
+    docker build -t stuckless/sagetv-server-java8:latest sagetv-server-java8/ && \
+    docker build -t stuckless/sagetv-server-java9:latest sagetv-server-java9/
     # docker build -t stuckless/sagetv-server-beta:latest sagetv-server-beta/
     # docker build -t stuckless/sagetv-server-beta:latest sagetv-server-beta/
 else
