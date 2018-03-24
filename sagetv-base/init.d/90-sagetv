@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# start the server
-cd /opt/sagetv/server/
-
-sudo -u sagetv /opt/sagetv/server/startsage
-
-exit 0

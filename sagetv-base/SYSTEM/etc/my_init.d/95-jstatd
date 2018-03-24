@@ -9,15 +9,15 @@ fi
 
 echo "JSTATD Enabling Remote Java Debugging on default port"
 
-policy=/root/.jstatd.all.policy
-echo "grant codebase \"file:${JAVA_HOME}/lib/tools.jar\" {" > ${policy}
-echo "  permission java.security.AllPermission;" >> ${policy}
-echo "};" >> ${policy}
+#policy=/root/.jstatd.all.policy
+#echo "grant codebase \"file:${JAVA_HOME}/lib/tools.jar\" {" > ${policy}
+#echo "  permission java.security.AllPermission;" >> ${policy}
+#echo "};" >> ${policy}
 
-cat ${policy}
+#cat ${policy}
 
 # NOTE: jvisualvm doesn't support alternate port and name
 #/usr/lib/jvm/java-8-oracle/bin/rmiregistry -J-Djava.rmi.server.codebase=file:/usr/lib/jvm/java-8-oracle/lib/tools.jar ${OPT_JSTATD_PORT} &
 #/usr/lib/jvm/java-8-oracle/bin/jstatd -J-Djava.security.policy=${policy} -p ${OPT_JSTATD_PORT} -n "${OPT_JSTATD_NAME}" &
-${JAVA_HOME}/bin/jstatd -J-Djava.security.policy=${policy} &
+${JAVA_HOME}/bin/jstatd -J-Djava.security.policy=all.policy &
 echo "JSTATD started on default port with JMX on port 9010"

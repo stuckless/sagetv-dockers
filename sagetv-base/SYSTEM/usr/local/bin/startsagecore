@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+# Copyright 2015 The SageTV Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+export LD_LIBRARY_PATH=.:lib:irtunerplugins
+export LANG=en_US.ISO-8859-1
+echo Executing pre-scripts
+restartApp=1
+
+PIDFILE=/var/run/sagetv.pid
+HEADLESS=true
+JAVAMEM=-Xmx768m
+JAVAOPTS=
+
+# You can use the sagesettings file to overwrite settings
+if [ -e sagesettings ] ; then
+	. sagesettings
+fi
+
+# This is more so that we can hook into docker
+if [ -e sagedockerenv ] ; then
+	. sagedockerenv
+fi
+
+# If we are running Java 8 or 9, enable string deduplication. This has very measurable benefits in
+# multi-miniclient situations.
+JAVA_VERSION=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}' | tr '.' '\n' | head -1)
+if [[ "$JAVA_VERSION" == "1" ]] ; then
+    # we have a version like "1.8" instead of "9.0"  so, get the real version
+    JAVA_VERSION=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
+fi
+
+if [[ "$JAVA_VERSION" == "8" || "$JAVA_VERSION" == "9" ]] ; then
+    JAVAOPTS="$JAVAOPTS -XX:+UseG1GC -XX:+UseStringDeduplication"
+fi
+
+if [[ "$JAVA_VERSION" == "9" || "$JAVA_VERSION" == "10" || "$JAVA_VERSION" == "11" ]] ; then
+    JAVAOPTS="$JAVAOPTS --add-modules java.se.ee "
+fi
+
+while [ $restartApp -eq 1 ]; do
+	restartApp=0
+	if [ -e stageddeletes.txt ] || [ -e stagedrenames.txt ] ; then
+		java -cp Sage.jar sage.plugin.StageCleaner
+	fi
+	for i in presage??* ;
+	do
+	if [ -f "$i" ] ; then
+	    ./$i
+	fi
+	done
+	echo Starting server mode
+	java -Djava.awt.headless=$HEADLESS $JAVAMEM -XX:+UseAdaptiveSizePolicy -XX:MaxGCPauseMillis=25 -XX:GCTimeRatio=24 $(if [[ $EUID -eq 0 ]]; then echo '-XX:ThreadPriorityPolicy=1'; fi) $JAVAOPTS -cp Sage.jar:JARs/lucene-core-3.6.0.jar:/:$(echo JARs/*.jar | sed 's/  */:/g') sage.Sage 0 0 x "sagetv Sage.properties" <&- &
+	javapid=$!
+	echo -n $javapid > $PIDFILE
+	wait $javapid
+	if [ -e restart ] ; then
+		restartApp=1
+		rm restart
+	fi
+	if [ -e restartsvc ] ; then
+		restartApp=1
+		rm restartsvc
+	fi
+done
+exit 0

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# set default sagetv home
+SAGE_HOME=${SAGE_HOME:-/opt/sagetv/server}
+
+SAGE_DOCKER_ENV=${SAGE_HOME}/sagedockerenv
+
+# clear out any old data
+echo "" > ${SAGE_DOCKER_ENV}
+
+if  [ "$OPT_JSTATD" == "Y" ] ; then
+    echo "Configuring JSTATD on Port 9010"
+    EXTRA_ARGS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+    echo "export JAVAOPTS=\"${EXTRA_ARGS}\"" >> ${SAGE_DOCKER_ENV}
+fi
+
+# set java memory
+if [ "${JAVA_MEM_MB}" != "" ] ; then
+    echo "Updating Java Mem ${JAVA_MEM_MB}"
+    echo "export JAVAMEM=\"-Xmx${JAVA_MEM_MB}m\"" >> ${SAGE_DOCKER_ENV}
+fi
+
+chmod 755 ${SAGE_DOCKER_ENV}

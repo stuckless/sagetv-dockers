@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# start the server
+cd /opt/sagetv/server/
+
+# NOTE: We are using our own start script
+sudo -E "PATH=$PATH" -u sagetv /usr/local/bin/startsage
+
+exit 0
