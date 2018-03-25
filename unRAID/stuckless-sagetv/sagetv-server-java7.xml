@@ -30,7 +30,7 @@
         [br][b][u][span style='color: #E80000;']Notes[/span][/u][/b][br]
         [b]*[/b] SageTV will need to use 'host' networking, so while the ports are defined, they are not required to be edited.  Without 'host' sagetv will think your network clients are connecting as remote placeshifters, and present the placeshifter login.  Because it is running in host mode, make sure you don't have other docker containers that are using port 8080.  If you do, then EITHER change SageTV Jetty Port (in plugin configuration) after install, or, update the other docker containers to NOT use port 8080.[br]
         [b]*[/b] On every Docker start, it will check for a new version of SageTV and install it, if it exists.[br]
-        [b]*[/b] There are Java 7 and Java 8 version of these containers.  Java 8 will be the default moving forward, but it currently has issues with the the /apps/ path in the Jetty Web UI.  Java 8 will work with BMT and SageTV Web UI, but, if you need/want the /apps/ then you'll want to run Java 7.[br]
+        [b]*[/b] There are Java 8, 9, and 10 version of these containers.  Java 8 will be the default moving forward, but it currently has issues with the the /apps/ path in the Jetty Web UI.[br]
     </Description>
     <Networking>
         <Mode>host</Mode>

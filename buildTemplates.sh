@@ -10,3 +10,9 @@ cat ${TEMPLATE_SRC}/sagetv-server.xml.hbs | ${TEMPLATE_SRC}/mo > ${TEMPLATE_OUT}
 
 export CONTAINER_POSTFIX="java8"
 cat ${TEMPLATE_SRC}/sagetv-server.xml.hbs | ${TEMPLATE_SRC}/mo > ${TEMPLATE_OUT}/${CONTAINER}-${CONTAINER_POSTFIX}.xml
+
+export CONTAINER_POSTFIX="java9"
+cat ${TEMPLATE_SRC}/sagetv-server.xml.hbs | ${TEMPLATE_SRC}/mo > ${TEMPLATE_OUT}/${CONTAINER}-${CONTAINER_POSTFIX}.xml
+
+export CONTAINER_POSTFIX="java10"
+cat ${TEMPLATE_SRC}/sagetv-server.xml.hbs | ${TEMPLATE_SRC}/mo > ${TEMPLATE_OUT}/${CONTAINER}-${CONTAINER_POSTFIX}.xml

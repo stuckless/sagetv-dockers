@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <Container version="2">
     <Beta>False</Beta>
-    <Name>stuckless-sagetv-server-java8</Name>
-    <Repository>stuckless/sagetv-server-java8</Repository>
-    <Registry>https://hub.docker.com/r/stuckless/sagetv-server-java8/</Registry>
+    <Name>stuckless-sagetv-server-java9</Name>
+    <Repository>stuckless/sagetv-server-java9</Repository>
+    <Registry>https://hub.docker.com/r/stuckless/sagetv-server-java9/</Registry>
     <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/unRAID/stuckless-sagetv/</GitHub>
     <Network>host</Network>
     <Privileged>true</Privileged>
