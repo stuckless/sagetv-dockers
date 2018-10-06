@@ -3,10 +3,14 @@
 # Options
 VERSION=${VERSION:-latest}
 
-if  [ ! -e "/var/opt/CrushFTP8_PC/CrushFTP.jar" ]; then
+# basically if it's not installed OR we see an upgrade trigger, then, extract our zip
+if  [ ! -e "/var/opt/CrushFTP8_PC/CrushFTP.jar" ] || [ -e "/var/opt/CrushFTP8_PC/upgrade" ] ; then
     cd "/var/opt/"
     unzip -o /tmp/CrushFTP8_PC.zip
+    rm -f /var/opt/CrushFTP8_PC/upgrade
     echo "Crush Upgrade Complete"
+else
+    echo "No Upgrade Performed.  You can create the file /var/opt/CrushFTP8_PC/upgrade to force it."
 fi
 
 exit 0
