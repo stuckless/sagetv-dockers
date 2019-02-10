@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<Container version="2">
+    <Beta>False</Beta>
+    <Name>stuckless-sagetv-server-java11</Name>
+    <Repository>stuckless/sagetv-server-java11</Repository>
+    <Registry>https://hub.docker.com/r/stuckless/sagetv-server-java11/</Registry>
+    <GitHub>https://github.com/stuckless/sagetv-dockers/tree/master/unRAID/stuckless-sagetv/</GitHub>
+    <Network>host</Network>
+    <Privileged>true</Privileged>
+    <Support>http://forums.sagetv.com/forums/showthread.php?p=587908</Support>
+    <Overview>
+        SageTV is an Open Source PVR and Media Player
+    </Overview>
+    <Category>MediaApp:Video MediaApp:Music MediaApp:Photos MediaServer:Video MediaServer:Music MediaServer:Photos</Category>
+    <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+    <TemplateURL/>
+    <Icon>https://raw.githubusercontent.com/OpenSageTV/sagetv-miniclient/master/playstore/ic_launcher-web.png</Icon>
+    <ExtraParams/>
+
+    <Description>
+        SageTV is an Open Source PVR and Media Player[br][br]
+        [b][u][span style='color: #E80000;']Configuration[/span][/u][/b][br]
+        [b]/opt/sagetv[/b] This is the base directory for the server and other sagetv related files.  Under this location there can be a 'server' directory and if the existing 'server' directory exists it will be upgraded.[br]
+        [b]/var/media[/b] Path for sagetv recordings and videos.  Under this directory there should be (or will be created) a 'tv' directory where SageTV recordings will get recorded.[br]
+        [b]/var/mediaext[/b] Path for extra media files.  This can be whatever you want, but you will configure SageTV to look for videos, music, pictures, etc from this location.[br]
+        [br][b][u][span style='color: #E80000;']PERMISSIONS[/span][/u][/b][br]
+        [b]PUID[/b] Should be the 'nobody' user for unRAID
+        [b]PGID[/b] Should be the 'users' group for unRAID
+        [b]VIDEO_GUID[/b] Should be the 'video' group for unRAID (used if you use PCI/USB video capture devices)
+        [br][b][u][span style='color: #E80000;']Notes[/span][/u][/b][br]
+        [b]*[/b] SageTV will need to use 'host' networking, so while the ports are defined, they are not required to be edited.  Without 'host' sagetv will think your network clients are connecting as remote placeshifters, and present the placeshifter login.  Because it is running in host mode, make sure you don't have other docker containers that are using port 8080.  If you do, then EITHER change SageTV Jetty Port (in plugin configuration) after install, or, update the other docker containers to NOT use port 8080.[br]
+        [b]*[/b] On every Docker start, it will check for a new version of SageTV and install it, if it exists.[br]
+        [b]*[/b] There are Java 8, 9, and 10 version of these containers.  Java 8 will be the default moving forward, but it currently has issues with the the /apps/ path in the Jetty Web UI.[br]
+    </Description>
+    <Networking>
+        <Mode>host</Mode>
+        <Publish>
+            <Port>
+                <HostPort>8080</HostPort>
+                <ContainerPort>8080</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>7818</HostPort>
+                <ContainerPort>7818</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>8270</HostPort>
+                <ContainerPort>8270</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>31100</HostPort>
+                <ContainerPort>31100</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>31099</HostPort>
+                <ContainerPort>31099</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>16867</HostPort>
+                <ContainerPort>16867</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>16869</HostPort>
+                <ContainerPort>16869</ContainerPort>
+                <Protocol>udp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>16881</HostPort>
+                <ContainerPort>16881</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+            <Port>
+                <HostPort>42024</HostPort>
+                <ContainerPort>42024</ContainerPort>
+                <Protocol>tcp</Protocol>
+            </Port>
+        </Publish>
+    </Networking>
+    <Data>
+        <Volume>
+            <HostDir>/mnt/user/appdata/sagetv/</HostDir>
+            <ContainerDir>/opt/sagetv</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
+        <Volume>
+            <HostDir>/mnt/user/sagemedia/</HostDir>
+            <ContainerDir>/var/media</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
+        <Volume>
+            <HostDir>/mnt/user/media/videos/</HostDir>
+            <ContainerDir>/var/mediaext</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
+        <Volume>
+            <HostDir>/mnt/user</HostDir>
+            <ContainerDir>/unraid</ContainerDir>
+            <Mode>rw</Mode>
+        </Volume>
+    </Data>
+    <Environment>
+        <Variable>
+            <Value>latest</Value>
+            <Name>VERSION</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>768</Value>
+            <Name>JAVA_MEM_MB</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value></Value>
+            <Name>LICENCE_DATA</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>Y</Value>
+            <Name>OPT_GENTUNER</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>N</Value>
+            <Name>OPT_COMMANDIR</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>N</Value>
+            <Name>OPT_LIRC</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>Y</Value>
+            <Name>OPT_COMSKIP</Name>
+            <Mode/>
+        </Variable>
+        <Variable>
+            <Value>Y</Value>
+            <Name>OPT_SETPERMS</Name>
+            <Mode/>
+        </Variable>
+    </Environment>
+    <Config Name="Port 1" Target="8080" Default="8080" Mode="tcp" Description="SageTV WebServer Port 8080" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">8080</Config>
+    <Config Name="Port 2" Target="42024" Default="42024" Mode="tcp" Description="Container Port: 42024" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">42024</Config>
+    <Config Name="Port 3" Target="7818" Default="7818" Mode="tcp" Description="Container Port: 7818" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">7818</Config>
+    <Config Name="Port 4" Target="8270" Default="8270" Mode="udp" Description="Container Port: 8270" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">8270</Config>
+    <Config Name="Port 5" Target="31100" Default="31100" Mode="udp" Description="Container Port: 31100" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">31100</Config>
+    <Config Name="Port 6" Target="31099" Default="31099" Mode="tcp" Description="Container Port: 31099" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">31099</Config>
+    <Config Name="Port 7" Target="16867" Default="16867" Mode="udp" Description="Container Port: 16867" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">16867</Config>
+    <Config Name="Port 8" Target="16869" Default="16869" Mode="udp" Description="Container Port: 16869" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">16869</Config>
+    <Config Name="Port 9" Target="16881" Default="16881" Mode="tcp" Description="Container Port: 16881" Type="Port"
+            Display="advanced-hide" Required="true" Mask="false">16881</Config>
+
+    <Config Name="Path 1" Target="/opt/sagetv" Default="/mnt/user/appdata/sagetv/" Mode="rw"
+            Description="SageTV base directory" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/sagetv/</Config>
+
+    <Config Name="Path 2" Target="/var/media" Default="/mnt/user/media/sagetv/" Mode="rw"
+            Description="SageTV Media Directory (for recordings, etc)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/sagemedia/</Config>
+
+    <Config Name="Path 3" Target="/var/mediaext" Default="/mnt/user/media/videos/" Mode="rw"
+            Description="SageTV videos directory for other imported video files" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/media/videos/</Config>
+
+    <Config Name="unRAID Share Path" Target="/unraid" Default="/mnt/user" Mode="rw"
+            Description="Container Path: /unraid" Type="Path" Display="hidden" Required="false" Mask="false">/mnt/user</Config>
+
+    <Config Name="Variable 1" Target="VERSION" Default="latest" Mode="" Description="SageTV Version" Type="Variable"
+            Display="always" Required="true" Mask="false">latest</Config>
+    <Config Name="Variable 2" Target="JAVA_MEM_MB" Default="768" Mode="" Description="Java Memory in MB"
+            Type="Variable" Display="always" Required="false" Mask="false">768</Config>
+    <Config Name="Variable 3" Target="LICENCE_DATA" Default="" Mode="" Description="SageTV License Key"
+            Type="Variable" Display="always" Required="false" Mask="false"></Config>
+    <Config Name="Variable 4" Target="OPT_GENTUNER" Default="Y" Mode="" Description="Install Gentuner Plugin"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">Y</Config>
+    <Config Name="Variable 5" Target="OPT_COMMANDIR" Default="N" Mode="" Description="Install CommandIR files"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">N</Config>
+    <Config Name="Variable 6" Target="OPT_COMSKIP" Default="Y" Mode="" Description="Install native comskip files"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">Y</Config>
+    <Config Name="Variable 7" Target="OPT_SETPERMS" Default="Y" Mode="" Description="Set permissions on startup"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">Y</Config>
+    <Config Name="Variable 8" Target="OPT_LIRC" Default="N" Mode="" Description="Enable LIRC Daemon with Configuration from SageTV lirc.d Directory"
+            Type="Variable" Display="advanced-hide" Required="false" Mask="false">N</Config>
+</Container>
