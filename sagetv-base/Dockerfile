@@ -9,7 +9,7 @@ CMD ["/sbin/my_init"]
 MAINTAINER Sean Stuckless <sean.stuckless@gmail.com>
 
 # The docker container version, not SageTV version
-ENV SAGETV_CONTAINER_VERSION="1.0.4" \
+ENV SAGETV_CONTAINER_VERSION="1.0.5" \
     APP_NAME="SageTV Media Server" \
     DEBIAN_FRONTEND=noninteractive \
     LANG=en_US.UTF-8 \
@@ -20,6 +20,7 @@ ENV SAGETV_CONTAINER_VERSION="1.0.4" \
 # Speed up APT
 # sagetv stuff
 # comskip stuff
+# python 3.x
 # clean up
 RUN set -x && \
     locale-gen en_US.UTF-8 && \
@@ -27,12 +28,16 @@ RUN set -x && \
     echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup && \
     echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache && \
     add-apt-repository -y universe && \
+    add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
     apt-get install -y wget curl libfaad2 net-tools file libargtable2-0 ffmpeg sudo \
-        less vim software-properties-common unzip cifs-utils lirc dos2unix && \
+        less vim telnet software-properties-common unzip cifs-utils lirc dos2unix python3.6 python3-setuptools && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Add Python
+
 
 # add in our System Files
 COPY SYSTEM/ /

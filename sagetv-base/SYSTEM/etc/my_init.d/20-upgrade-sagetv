@@ -6,13 +6,13 @@ VERSION=${VERSION:-latest}
 # SageTV Version
 SAGE_VERSION=""
 if [ "${VERSION}" = "latest" ] ; then
-    SAGE_VERSION=`curl https://dl.bintray.com/opensagetv/sagetv/sagetv/ | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/' | egrep -e '9\.[0-9]+' | sort -V | tail -1`
+    SAGE_VERSION=`curl https://github.com/OpenSageTV/sagetv-linux/releases/latest | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/' | egrep -e '9\.[0-9]+' | sort -V | tail -1`
 else
     SAGE_VERSION=${VERSION}
 fi
 
 SAGE_VERSION_BASE=`echo "${SAGE_VERSION}" | sed 's/\.[^.]*$//'`
-SAGE_SERVER_TGZ_URL="https://bintray.com/artifact/download/opensagetv/sagetv/sagetv/${SAGE_VERSION}/sagetv-server_${SAGE_VERSION_BASE}_amd64.tar.gz"
+SAGE_SERVER_TGZ_URL="https://github.com/OpenSageTV/sagetv-linux/releases/download/9.2.5.168/sagetv-server_9.2.5_amd64.tar.gz"
 SAGE_SERVER_TGZ="sagetvserver-${SAGE_VERSION}.tgz"
 SAGE_CUR_VERSION_FILE=".SAGE_CUR_VERSION"
 

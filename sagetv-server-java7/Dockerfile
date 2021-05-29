@@ -9,15 +9,15 @@ RUN set -x
 
 # Install Java.
 RUN \
-  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
+  add-apt-repository ppa:openjdk-r/ppa  && \  
   apt-get update && \
-  apt-get install -y oracle-java7-installer && \
+  apt-get install -y openjdk-7-jdk && \
   rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk7-installer
+  rm -rf /var/cache/*
+
 
 # Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/
 
 RUN apt-get autoremove -y \
     && apt-get clean \

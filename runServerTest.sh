@@ -15,12 +15,17 @@ if [ "$1" = "stop" ] || [ "$2" = "stop" ] ; then
     exit 0;
 fi
 
+UNRAID=/home/sls/unRAID/
+mkdir -p ${UNRAID}/mnt/user/sagemedia
+mkdir -p ${UNRAID}/mnt/user/mediaext
+mkdir -p ${UNRAID}/mnt/user/apps/sagetv
+
 docker run -d --name sagetv-server \
-  -v /home/seans/unRAID/mnt/user/sagemedia:/var/media \
-  -v /home/seans/unRAID/mnt/user/mediaext:/var/mediaext \
-  -v /home/seans/unRAID/mnt/user/apps/sagetv:/opt/sagetv \
-  -v /home/seans/unRAID:/unraid \
-  -v /home/seans/git/sagetv-webapi/app:/opt/sagetv/server/userdata/webserver/wwwroot/sage \
+  -v ${UNRAID}/mnt/user/sagemedia:/var/media \
+  -v ${UNRAID}/mnt/user/mediaext:/var/mediaext \
+  -v ${UNRAID}/mnt/user/apps/sagetv:/opt/sagetv \
+  -v ${UNRAID}:/unraid \
+  -v ${UNRAID}/git/sagetv-webapi/app:/opt/sagetv/server/userdata/webserver/wwwroot/sage \
   --net host \
   --env OPT_GENTUNER=Y \
   --env OPT_COMMANDIR=Y \
@@ -29,6 +34,6 @@ docker run -d --name sagetv-server \
   --env PGID=1000 \
   --env VIDEO_GUID=44 \
   --env LICENCE_DATA=AAABBB \
-  --env JAVA_MEM_MB=512 \
+  --env JAVA_MEM_MB=984 \
   --privileged \
   -t -i "$1" $2
