@@ -47,7 +47,7 @@ if [[ "$JAVA_VERSION" == "8" || "$JAVA_VERSION" == "9" ]] ; then
 fi
 
 if [[ "$JAVA_VERSION" == "9" || "$JAVA_VERSION" == "10" ]] ; then
-    JAVAOPTS="$JAVAOPTS --add-modules java.se.ee "
+    JAVAOPTS="$JAVAOPTS --add-modules java.se.ee"
 fi
 
 if [[ "$JAVA_VERSION" == "16" || "$JAVA_VERSION" == "11" ]] ; then
